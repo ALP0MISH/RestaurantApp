@@ -3,6 +3,7 @@ package com.example.restaurantapp.presentation.components.pagers
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,7 +41,9 @@ import coil.compose.AsyncImage
 import com.example.restaurantapp.R
 import com.example.restaurantapp.presentation.components.animations.SpacerWidth
 import com.example.restaurantapp.presentation.models.MenuUi
+import com.example.restaurantapp.presentation.theme.BackgroundModal
 import com.example.restaurantapp.presentation.theme.BackgroundModalDar
+import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
 import com.example.restaurantapp.presentation.theme.DarkPlaceholder
 import com.example.restaurantapp.presentation.theme.ExtraLargeSpacing
 import com.example.restaurantapp.presentation.theme.ExtraMediumSpacing
@@ -122,7 +125,7 @@ fun LazyColumnItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(115.dp)
-                .background(SearchColor),
+                .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundModal),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(

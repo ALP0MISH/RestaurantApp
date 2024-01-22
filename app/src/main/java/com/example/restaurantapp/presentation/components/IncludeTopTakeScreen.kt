@@ -2,6 +2,7 @@ package com.example.restaurantapp.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,6 +31,8 @@ import com.example.restaurantapp.presentation.components.animations.SpacerHeight
 import com.example.restaurantapp.presentation.components.animations.SpacerWidth
 import com.example.restaurantapp.presentation.models.User
 import com.example.restaurantapp.presentation.theme.Background
+import com.example.restaurantapp.presentation.theme.BackgroundSecondary
+import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
 
 @Composable
 fun IncludeTopTakeScreen(
@@ -41,7 +44,6 @@ fun IncludeTopTakeScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
-            .background(Background)
     ) {
         Row(
             modifier = Modifier,
@@ -60,12 +62,12 @@ fun IncludeTopTakeScreen(
                 Text(
                     text = stringResource(id = R.string.reserve),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = "${user.userName} ${user.userLastname}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -73,7 +75,7 @@ fun IncludeTopTakeScreen(
                 modifier = Modifier.size(22.dp),
                 imageVector = Icons.Default.Notifications,
                 contentDescription = null,
-                tint = Color.White
+                tint = MaterialTheme.colorScheme.onBackground
             )
         }
         val (value, onValueChange) = remember { mutableStateOf("") }

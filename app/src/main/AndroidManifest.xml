@@ -17,7 +17,6 @@
         <activity
             android:name=".presentation.app.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.RestaurantApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

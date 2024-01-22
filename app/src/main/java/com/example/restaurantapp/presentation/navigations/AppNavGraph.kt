@@ -19,6 +19,7 @@ fun AppNavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = SplashDestination.route()
     ) {
+
         composable(SplashDestination.route()) {
             val viewModel: SplashViewModel = hiltViewModel()
             viewModel

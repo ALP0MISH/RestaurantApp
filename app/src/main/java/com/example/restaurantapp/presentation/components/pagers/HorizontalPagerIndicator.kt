@@ -14,6 +14,7 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabPosition
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -61,13 +62,15 @@ fun HorizontalPagerContent(
     ) {
         menuList.forEachIndexed { index, _ ->
             val header = getPagerHeaderByPosition(index)
-            Tab(selectedContentColor = Color.Red,
+            Tab(
+                selectedContentColor = Color.Red,
                 unselectedContentColor = Color.Transparent,
                 text = {
                     Text(
-                        text = header, style = typography.bodyLarge.copy(
-                            color = Color.White
-                        )
+                        text = header,
+                        style = typography.bodyLarge.copy(
+                            color = MaterialTheme.colorScheme.onBackground
+                        ),
                     )
 
                 },
@@ -76,7 +79,8 @@ fun HorizontalPagerContent(
                     coroutineScope.launch {
                         pagerState.animateScrollToPage(index)
                     }
-                })
+                },
+            )
         }
     }
     HorizontalPager(

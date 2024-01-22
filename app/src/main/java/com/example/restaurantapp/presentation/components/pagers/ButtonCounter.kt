@@ -2,6 +2,7 @@ package com.example.restaurantapp.presentation.components.pagers
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -38,6 +39,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.restaurantapp.R
+import com.example.restaurantapp.presentation.theme.BackgroundSecondary
+import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
 import com.example.restaurantapp.presentation.theme.ButtonColor
 import com.example.restaurantapp.presentation.theme.SearchColor
 
@@ -85,7 +88,7 @@ private fun DraggableThumbButton(
         Text(
             modifier = Modifier,
             text = value,
-            color = Color.White,
+            color = androidx.compose.material3.MaterialTheme.colorScheme.onBackground,
             style = androidx.compose.material3.MaterialTheme.typography.headlineSmall,
             fontSize = 12.sp
         )
@@ -109,7 +112,7 @@ private fun ButtonContainer(
         modifier = modifier
             .fillMaxSize()
             .clip(CircleShape)
-            .background(MaterialTheme.colors.onBackground)
+            .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary)
             .padding(horizontal = 8.dp)
     ) {
         // кнопка уменьшения
@@ -145,7 +148,7 @@ private fun IconControlButton(
     contentDescription: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    tintColor: Color = Color.White,
+    tintColor: Color = androidx.compose.material3.MaterialTheme.colorScheme.onBackground,
 ) {
     Box(
         modifier = modifier,
@@ -225,13 +228,13 @@ fun ButtonCounterDetail(
                 .width(155.dp)
                 .height(45.dp)
                 .clip(RoundedCornerShape(30.dp))
-                .background(Color.Black),
+                .background(androidx.compose.material3.MaterialTheme.colorScheme.onBackground),
             onClick = { }
         ) {
             Text(
                 text = stringResource(id = R.string.next),
                 style = androidx.compose.material3.MaterialTheme.typography.bodyLarge,
-                color = Color.White
+                color = androidx.compose.material3.MaterialTheme.colorScheme.onBackground
             )
         }
     }

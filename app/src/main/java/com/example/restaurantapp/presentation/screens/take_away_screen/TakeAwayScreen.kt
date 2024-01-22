@@ -1,6 +1,7 @@
 package com.example.restaurantapp.presentation.screens.take_away_screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -46,6 +47,8 @@ import com.example.restaurantapp.presentation.components.animations.SpacerHeight
 import com.example.restaurantapp.presentation.theme.Background
 import com.example.restaurantapp.presentation.components.animations.ShimmerList
 import com.example.restaurantapp.presentation.screens.detail_screen.ItemDetailType
+import com.example.restaurantapp.presentation.theme.BackgroundSecondary
+import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
 import com.example.restaurantapp.presentation.theme.ExtraLarge
 import com.example.restaurantapp.presentation.theme.ExtraLargeSpacing
 import com.example.restaurantapp.presentation.theme.ExtraMediumSpacing
@@ -72,11 +75,8 @@ fun TakeAwayScreen(
         .background(Background)
         .fillMaxSize()
     when (val uiState = uiStateFlow.collectAsStateWithLifecycle().value) {
-        is TakeAwayUiState.Loading -> {
-            ShimmerList(
-                modifier = fullScreenModifier
-            )
-        }
+        is TakeAwayUiState.Loading -> ShimmerList(modifier = fullScreenModifier)
+
 
         is TakeAwayUiState.Loaded -> {
             LoadedScreen(
@@ -151,7 +151,7 @@ fun LoadedScreen(
         BoxWithConstraints(
             modifier = modifier
                 .fillMaxSize()
-                .background(Background)
+                .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary)
         ) {
             val screenHeight = maxHeight
             val scrollState = rememberScrollState()
@@ -161,7 +161,6 @@ fun LoadedScreen(
                     .padding(contentPadding)
                     .fillMaxSize()
                     .verticalScroll(state = scrollState)
-                    .background(Background)
             ) {
                 IncludeTopTakeScreen(
                     navigateToSearchScreen = navigateToSearchScreen,

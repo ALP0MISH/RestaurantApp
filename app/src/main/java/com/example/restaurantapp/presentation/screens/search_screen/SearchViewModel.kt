@@ -25,14 +25,25 @@ data class AllMenuUI(
     val allFastFoot: List<MenuUi> = emptyList(),
     val allHotDishes: List<MenuUi> = emptyList(),
     val allSalads: List<MenuUi> = emptyList(),
-)
+    var allItems: List<MenuUi> = emptyList()
+) {
+    init {
+        val allLists = listOf(
+            allDrinks,
+            allDesserts,
+            allFastFoot,
+            allHotDishes,
+            allSalads,
+        )
+        allItems = allLists.flatten()
+    }
+}
 
 @OptIn(FlowPreview::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val menuInteractor: FetchMenuInteractor,
-
-    ) : ViewModel() {
+) : ViewModel() {
 
     private val searchQueryFlow = MutableStateFlow("")
 
@@ -40,18 +51,15 @@ class SearchViewModel @Inject constructor(
     val uiStateFlow: StateFlow<SearchUiState> = _uiStateFlow.asStateFlow()
 
     init {
-        searchQueryFlow
-            .onEach { query ->
+        searchQueryFlow.onEach { query ->
                 _uiStateFlow.tryEmit(
                     _uiStateFlow.value.copy(
-                        query = query,
-                        isLoading = true
+                        query = query, isLoading = true
                     )
                 )
-            }
-            .debounce(300)
-            .onEach { fetchMenu(it) }
-            .launchIn(viewModelScope)
+            }.debounce(300).onEach {
+                fetchMenu(it)
+            }.launchIn(viewModelScope)
     }
 
     private fun fetchMenu(query: String) {
@@ -63,22 +71,15 @@ class SearchViewModel @Inject constructor(
             } else {
                 val filteredMenu = filterMenuByQuery(menu, query)
                 val loaded = AllMenuUI(
-                    allDrinks = filteredMenu.allDrinks.sortedBy { it.title }
-                        .map { it.toUi() },
-                    allDesserts = filteredMenu.allDesserts.sortedBy { it.title }
-                        .map { it.toUi() },
-                    allHotDishes = filteredMenu.allHotDishes.sortedBy { it.title }
-                        .map { it.toUi() },
-                    allFastFoot = filteredMenu.allFastFoot.sortedBy { it.title }
-                        .map { it.toUi() },
-                    allSalads = filteredMenu.allSalads.sortedBy { it.title }
-                        .map { it.toUi() },
+                    allDrinks = filteredMenu.allDrinks.sortedBy { it.title }.map { it.toUi() },
+                    allDesserts = filteredMenu.allDesserts.sortedBy { it.title }.map { it.toUi() },
+                    allHotDishes = filteredMenu.allHotDishes.sortedBy { it.title }.map { it.toUi() },
+                    allFastFoot = filteredMenu.allFastFoot.sortedBy { it.title }.map { it.toUi() },
+                    allSalads = filteredMenu.allSalads.sortedBy { it.title }.map { it.toUi() },
                 )
-
                 _uiStateFlow.tryEmit(
                     _uiStateFlow.value.copy(
-                        menu = loaded,
-                        isLoading = false
+                        menu = loaded, isLoading = false
                     )
                 )
             }

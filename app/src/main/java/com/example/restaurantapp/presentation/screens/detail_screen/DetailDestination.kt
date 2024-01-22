@@ -2,8 +2,6 @@ package com.example.restaurantapp.presentation.screens.detail_screen
 
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.example.restaurantapp.presentation.navigations.Destination
-
 
 interface DetailDestination {
 

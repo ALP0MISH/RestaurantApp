@@ -5,6 +5,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
@@ -30,32 +32,27 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.restaurantapp.R
 import com.example.restaurantapp.presentation.theme.Background
+import com.example.restaurantapp.presentation.theme.BackgroundModal
+import com.example.restaurantapp.presentation.theme.BackgroundModalDar
+import com.example.restaurantapp.presentation.theme.BackgroundSecondary
+import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
+import com.example.restaurantapp.presentation.theme.DarkPlaceholder
 import com.example.restaurantapp.presentation.theme.LightBlue
 
 enum class BottomTabs(
-    val icon: ImageVector,
-    val title: String,
-    val route: String
+    val icon: ImageVector, val title: String, val route: String
 ) {
     Home(
-        icon = Icons.Default.Home,
-        title = "Home",
-        route = "home_screen"
+        icon = Icons.Default.Home, title = "Home", route = "home_screen"
     ),
     Search(
-        icon = Icons.Default.Search,
-        title = "Search",
-        route = "search_screen"
+        icon = Icons.Default.Search, title = "Search", route = "search_screen"
     ),
     SHOPPING(
-        icon = Icons.Default.ShoppingCart,
-        title = "Shopping",
-        route = "shopping_screen"
+        icon = Icons.Default.ShoppingCart, title = "Shopping", route = "shopping_screen"
     ),
     SETTINGS(
-        icon = Icons.Default.Settings,
-        title = "Notification",
-        route = "settings_screen"
+        icon = Icons.Default.Settings, title = "Notification", route = "settings_screen"
     ),
 }
 
@@ -77,7 +74,8 @@ fun AppBottomNavigation(
                 selected = currentRoute == bottomTabs.route,
                 onClick = {
                     navController.navigate(bottomTabs.route)
-                }, icon = bottomTabs.icon
+                },
+                icon = bottomTabs.icon
             )
         }
     }
@@ -99,17 +97,13 @@ fun AppBottomNavigationItem(
     else Color.LightGray
 
     val animatedScale: Float by animateFloatAsState(
-        targetValue = scale,
-        animationSpec = TweenSpec(
-            durationMillis = 500,
-            easing = FastOutSlowInEasing
+        targetValue = scale, animationSpec = TweenSpec(
+            durationMillis = 500, easing = FastOutSlowInEasing
         ), label = ""
     )
     val animatedColor by animateColorAsState(
-        targetValue = color,
-        animationSpec = TweenSpec(
-            durationMillis = 500,
-            easing = FastOutSlowInEasing
+        targetValue = color, animationSpec = TweenSpec(
+            durationMillis = 500, easing = FastOutSlowInEasing
         ), label = ""
     )
 
@@ -117,7 +111,7 @@ fun AppBottomNavigationItem(
         onClick = onClick,
         modifier = modifier
             .size(iconSize)
-            .background(Background)
+            .background(if (isSystemInDarkTheme()) DarkPlaceholder else BackgroundModal)
     ) {
         Icon(
             imageVector = icon,

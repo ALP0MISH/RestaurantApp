@@ -78,6 +78,9 @@ fun MainNavGraphRoot() {
                     navigateToDetailScreen = { menuId, categoryId ->
                         navHostController.navigate("${DetailsScrenDestination.route}/$menuId/$categoryId")
                     },
+                    navigateToBack = {
+                        navHostController.popBackStack()
+                    }
                 )
             }
             composable(BottomTabs.SHOPPING.route) {

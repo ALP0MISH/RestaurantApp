@@ -3,6 +3,7 @@ package com.example.restaurantapp.presentation.components.pagers
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,6 +40,9 @@ import coil.compose.AsyncImage
 import com.example.restaurantapp.presentation.components.animations.SpacerWidth
 import com.example.restaurantapp.presentation.models.MenuUi
 import com.example.restaurantapp.presentation.screens.detail_screen.ItemDetailType
+import com.example.restaurantapp.presentation.theme.BackgroundModal
+import com.example.restaurantapp.presentation.theme.BackgroundSecondary
+import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
 import com.example.restaurantapp.presentation.theme.DarkGrey
 import com.example.restaurantapp.presentation.theme.DarkPlaceholder
 import com.example.restaurantapp.presentation.theme.SearchColor
@@ -52,7 +56,6 @@ fun HorizontalPagerWithIndicator(
     modifier: Modifier = Modifier
 ) {
     val pagerState = rememberPagerState { menu.size }
-
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -104,7 +107,8 @@ fun HorizontalPagerItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(DarkGrey)
+                .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundModal)
+
                 .align(Alignment.BottomCenter)
         ) {
             AsyncImage(
@@ -123,7 +127,7 @@ fun HorizontalPagerItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.White
+                color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.weight(1f))
             Row(
@@ -159,7 +163,7 @@ fun HorizontalPagerItem(
                     modifier = Modifier.padding(start = 8.dp),
                     text = menu.price,
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Box(
@@ -170,7 +174,8 @@ fun HorizontalPagerItem(
                         .clickable {
                             isButtonCounterVisible = !isButtonCounterVisible
                         }
-                        .background(SearchColor),
+                        .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary),
+
                     contentAlignment = Alignment.Center
                 ) {
                     if (!isButtonCounterVisible) {
@@ -178,7 +183,7 @@ fun HorizontalPagerItem(
                             modifier = Modifier.size(20.dp),
                             imageVector = Icons.Default.Add,
                             contentDescription = null,
-                            tint = Color.White,
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
                     if (isButtonCounterVisible) {
@@ -228,7 +233,7 @@ fun IncludeHorizontalPagerWithIndicatorPreview() {
     MaterialTheme {
         HorizontalPagerItem(
             menu = MenuUi.unknown,
-            navigateToDetailScreen = { param1, param2 ->}
+            navigateToDetailScreen = { param1, param2 -> }
         )
     }
 }

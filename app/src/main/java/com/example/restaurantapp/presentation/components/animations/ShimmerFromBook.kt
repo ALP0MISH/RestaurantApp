@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 enum class ShimmerAnimationType {
-    FADE, TRANSLATE,  VERTICAL
+    FADE, TRANSLATE, VERTICAL
 }
 
 @Preview
@@ -27,7 +27,7 @@ enum class ShimmerAnimationType {
 fun ShimmerList(
     modifier: Modifier = Modifier
 ) {
-    var shimmerAnimationType by remember { mutableStateOf(ShimmerAnimationType.FADE) }
+    val shimmerAnimationType by remember { mutableStateOf(ShimmerAnimationType.FADE) }
 
     val transition = rememberInfiniteTransition(label = "")
     val translateAnim by transition.animateFloat(
@@ -142,7 +142,9 @@ fun ShimmerTopItem(lists: List<Color>, floatAnim: Float = 0f, isVertical: Boolea
     val brush = if (isVertical) Brush.verticalGradient(lists, 0f, floatAnim) else
         Brush.horizontalGradient(lists, 0f, floatAnim)
     Row(
-        modifier = Modifier.padding(16.dp).padding(top = 12.dp),
+        modifier = Modifier
+            .padding(16.dp)
+            .padding(top = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(

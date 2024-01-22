@@ -37,4 +37,7 @@
     <string name="search">Search</string>
     <string name="amount">Amount</string>
     <string name="start_search">Start Search</string>
+    <string name="sad_noresunt">Sad no result</string>
+    <string name="serch_title">We cannot find the item you are searching for, maybe a little spelling mistake?</string>
+    <string name="menu_name">Hot Dishes, Fast Dood, Salads</string>
 </resources>
