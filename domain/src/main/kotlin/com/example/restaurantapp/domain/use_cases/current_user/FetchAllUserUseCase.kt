@@ -11,7 +11,7 @@ class FetchUserUseCaseImpl(
     private val currentUserRepository: CurrentUserRepository
 ) : FetchAllUserUseCase {
     override suspend fun invoke(): UserDomain {
-        val currentUser = currentUserRepository.fetchCurrentUser()
-       return currentUser
+        val user = currentUserRepository.fetchCurrentUser()
+        return user
     }
 }

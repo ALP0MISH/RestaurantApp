@@ -10,8 +10,8 @@ interface SaveCurrentUserUseCase {
 class SaveCurrentUserUseCaseImpl(
     private val repository: CurrentUserRepository
 ) : SaveCurrentUserUseCase {
+
     override fun invoke(user: UserDomain) {
         repository.saveCurrentUser(user)
     }
-
 }

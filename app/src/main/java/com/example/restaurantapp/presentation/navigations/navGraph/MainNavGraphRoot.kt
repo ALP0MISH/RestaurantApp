@@ -3,8 +3,6 @@ package com.example.restaurantapp.presentation.navigations.navGraph
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -13,9 +11,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.restaurantapp.presentation.navigations.AppBottomNavigation
 import com.example.restaurantapp.presentation.navigations.BottomTabs
+import com.example.restaurantapp.presentation.screens.basket_screen.BasketScreen
+import com.example.restaurantapp.presentation.screens.basket_screen.BasketViewModel
 import com.example.restaurantapp.presentation.screens.detail_screen.DetailScreen
 import com.example.restaurantapp.presentation.screens.detail_screen.DetailsScrenDestination
 import com.example.restaurantapp.presentation.screens.detail_screen.DetailsViewModel
+import com.example.restaurantapp.presentation.screens.edit_profile.EditProfileScreen
+import com.example.restaurantapp.presentation.screens.edit_profile.EditProfileViewModel
 import com.example.restaurantapp.presentation.screens.search_screen.SearchScreen
 import com.example.restaurantapp.presentation.screens.search_screen.SearchViewModel
 import com.example.restaurantapp.presentation.screens.take_away_screen.TakeAwayScreen
@@ -29,7 +31,7 @@ fun MainNavGraphRoot() {
     Scaffold(
         bottomBar = {
             AppBottomNavigation(navController = navHostController)
-        }
+        },
     ) { innerPaddings ->
         NavHost(
             modifier = Modifier.padding(innerPaddings),
@@ -38,6 +40,7 @@ fun MainNavGraphRoot() {
         ) {
             composable(BottomTabs.Home.route) {
                 val viewModel: TakeAwayViewModel = hiltViewModel()
+                val basketViewModel: BasketViewModel = hiltViewModel()
                 TakeAwayScreen(
                     uiStateFlow = viewModel.uiState,
                     navigateToDetailScreen = { menuId, categoryId ->
@@ -46,7 +49,8 @@ fun MainNavGraphRoot() {
                     retryMenu = {},
                     navigateToSearchScreen = {
                         navHostController.navigate(BottomTabs.Search.route)
-                    }
+                    },
+                    addToBasket = basketViewModel::addToBasket,
                 )
             }
             composable(
@@ -67,7 +71,7 @@ fun MainNavGraphRoot() {
                             foodId = menuId,
                             categoryId = categoryId,
                         )
-                    }
+                    },
                 )
             }
             composable(BottomTabs.Search.route) {
@@ -78,16 +82,24 @@ fun MainNavGraphRoot() {
                     navigateToDetailScreen = { menuId, categoryId ->
                         navHostController.navigate("${DetailsScrenDestination.route}/$menuId/$categoryId")
                     },
-                    navigateToBack = {
-                        navHostController.popBackStack()
-                    }
                 )
             }
             composable(BottomTabs.SHOPPING.route) {
-
+                val viewModel: BasketViewModel = hiltViewModel()
+                BasketScreen(
+                    uiState = viewModel.uiStateFlow.collectAsStateWithLifecycle().value,
+                    navigateToDetailScreen = { menuId, categoryId ->
+                        navHostController.navigate("${DetailsScrenDestination.route}/$menuId/$categoryId")
+                    },
+                )
             }
             composable(BottomTabs.SETTINGS.route) {
-
+                val viewModel: EditProfileViewModel = hiltViewModel()
+                EditProfileScreen(
+                    uiState = viewModel.uiState,
+                    onEvent = viewModel::onEvent,
+                    changeUserInfo = viewModel::changeUserInfo
+                )
             }
         }
     }

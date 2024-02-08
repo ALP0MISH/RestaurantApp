@@ -94,7 +94,7 @@ fun LoadedScreen(
         modifier = modifier.fillMaxSize(),
     ) {
         AsyncImage(
-            model = menu.image,
+            model = menu.imageUrl,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxHeight()
@@ -195,7 +195,7 @@ fun LoadedScreenSecond(
         modifier = modifier.fillMaxSize(),
     ) {
         AsyncImage(
-            model = menu.image,
+            model = menu.imageUrl,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()

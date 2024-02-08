@@ -30,8 +30,8 @@ class SplashViewModel @Inject constructor(
             delay(SPLASH_DELAY_TIME)
             val destination = when {
                 currentUser.isNotUnknown() -> MAIN_NAV_GRAPH_ROUTE
-                isOnboardingPassed -> MAIN_NAV_GRAPH_ROUTE
-                else -> MAIN_NAV_GRAPH_ROUTE
+                isOnboardingPassed -> AUTH_NAV_GRAPH_ROUTE
+                else -> AUTH_NAV_GRAPH_ROUTE
             }
             navigatorManager.navigateTo(destination, true)
         }

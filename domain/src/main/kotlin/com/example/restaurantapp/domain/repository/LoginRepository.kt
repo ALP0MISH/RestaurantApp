@@ -10,6 +10,6 @@ interface LoginRepository {
         email: String,
         lastName: String,
         name: String,
-        password: String
+        password: String,
     ): Result<CreateResponseDomain>
 }

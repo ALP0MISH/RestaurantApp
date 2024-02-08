@@ -5,6 +5,8 @@ import com.example.restaurantapp.domain.common.Result
 import com.example.restaurantapp.domain.models.CreateResponseDomain
 import com.example.restaurantapp.domain.models.UserDomain
 import com.example.restaurantapp.domain.repository.LoginRepository
+import com.example.restaurantapp.domain.use_cases.current_user.SaveCurrentUserObjectId
+import com.example.restaurantapp.domain.use_cases.current_user.SaveCurrentUserUseCase
 import com.example.socialapp.data.cloud.models.user.SignUpParams
 import com.example.socialapp.data.cloud.service.LoginService
 import com.example.socialapp.data.mappers.toDomain
@@ -14,7 +16,8 @@ import javax.inject.Inject
 const val DEFAULT_ERROR_MESSAGE = "Something went Wrong"
 
 class LoginRepositoryImpl @Inject constructor(
-    private val service: LoginService
+    private val service: LoginService,
+    private val saveCurrentUserUseCase: SaveCurrentUserObjectId
 ) : LoginRepository {
 
     override suspend fun signIn(
@@ -32,6 +35,7 @@ class LoginRepositoryImpl @Inject constructor(
             Result.Error(DEFAULT_ERROR_MESSAGE)
         }
     }
+
     override suspend fun signUp(
         email: String,
         lastName: String,
@@ -46,8 +50,11 @@ class LoginRepositoryImpl @Inject constructor(
         )
         val response = service.signUp(params)
         val result = response.body()
-        if (result != null) Result.Success(CreateResponseDomain(id = result.id))
-        else Result.Error("DEFAULT_ERROR_MESSAGE")
+        if (result != null) {
+            saveCurrentUserUseCase(result.id)
+            Result.Success(CreateResponseDomain(id = result.id))
+        }
+        else Result.Error(DEFAULT_ERROR_MESSAGE)
     } catch (e: CancellationException) {
         throw e
     } catch (e: Exception) {

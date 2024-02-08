@@ -14,10 +14,7 @@ class SelectCategoryViewModel @Inject constructor(
     private val navigatorManager: GlobalNavigatorManager
 ) : ViewModel() {
 
-    private val _navControllerFlow = createMutableSharedFlowAsSingleLiveEvent<String>()
-    val navControllerFlow: SharedFlow<String> = _navControllerFlow.asSharedFlow()
-
     fun onTakeAwayClick() {
-        _navControllerFlow.tryEmit(LoginDestination.route())
+        navigatorManager.navigateTo(LoginDestination.route())
     }
 }

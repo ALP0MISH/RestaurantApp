@@ -12,6 +12,7 @@ google-playServicesAuth = "20.7.0"
 google-firebaseAuthKtx = "22.2.0"
 googleServices = "4.4.0"
 gson = "2.9.0"
+parse = "1.17.3"
 hilt-android = "2.48.1"
 hilt-navigation-compose = "1.0.0-alpha02"
 kotlin-version = "1.9.10"
@@ -26,6 +27,7 @@ materialIconsExtended = "1.5.4"
 navigation-compose = "2.7.6"
 playServicesAuth = "20.7.0"
 retrofit = "2.9.0"
+retrofit_file = "4.12.0"
 room_version = "2.6.0"
 androidxActivity = "1.8.0"
 androidxComposeBom = "2023.10.01"
@@ -66,6 +68,10 @@ firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx", version.
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-android" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }
 
+#parce
+parse_android = { module = "com.parse:parse-android", version.ref = "parse" }
+
+
 #MoreIcons
 material = { module = "com.google.android.material:material", version.ref = "material" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
@@ -97,6 +103,7 @@ navigation-compose = { module = "androidx.navigation:navigation-compose", versio
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converter-gson" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-interceptor" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+#retrofit-file = { module = "com.squareup.okhttp3:okhttp", version.ref = "retrofit_file" }
 
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp-version" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin-version" }

@@ -16,7 +16,7 @@ sealed class TakeAwayUiState {
         val fastFoot: List<MenuUi> = emptyList(),
         val salads: List<MenuUi> = emptyList(),
         val category: CategoryUI = CategoryUI.unknown,
-        val user: User,
+        val user: User = User.unknown,
     ) : TakeAwayUiState()
 
     data class Error(val message: String) : TakeAwayUiState()

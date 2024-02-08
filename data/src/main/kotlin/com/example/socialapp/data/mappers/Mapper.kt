@@ -1,10 +1,12 @@
 package com.example.socialapp.data.mappers
 
+import com.example.restaurantapp.domain.models.ChangeUserInfoDomain
 import com.example.restaurantapp.domain.models.LocationDomain
 import com.example.restaurantapp.domain.models.MenuDomain
 import com.example.restaurantapp.domain.models.UserDomain
-import com.example.socialapp.data.cloud.models.user.UserCloud
 import com.example.socialapp.data.cloud.models.menu.MenuCloud
+import com.example.socialapp.data.cloud.models.user.ChangeUserInfoResponse
+import com.example.socialapp.data.cloud.models.user.UserCloud
 
 fun UserCloud.toDomain(): UserDomain = this.run {
     UserDomain(
@@ -36,9 +38,35 @@ fun MenuCloud.toDomain(): MenuDomain =
             price = price,
             title = title,
             updatedAt = updatedAt,
-            image = image.url,
-            destination = description ,
-            category_id = category_id,
-            rating = rating
+            imageUrl = image.url,
+            destination = description,
+            categoryId = category_id,
+            rating = rating,
+            imageType = image.type,
+            imageName = image.name,
+        )
+    }
+
+fun ChangeUserInfoResponse.toDomain(): ChangeUserInfoDomain =
+    this.run {
+        ChangeUserInfoDomain(
+            userLastname = userLastname,
+            userName = userName,
+            email = email,
+            password = password,
+            historyId = historyId,
+            objectId = objectId
+        )
+    }
+
+fun ChangeUserInfoDomain.toCache(): ChangeUserInfoResponse =
+    this.run {
+        ChangeUserInfoResponse(
+            userLastname = userLastname,
+            userName = userName,
+            email = email,
+            password = password,
+            historyId = historyId,
+            objectId = objectId
         )
     }

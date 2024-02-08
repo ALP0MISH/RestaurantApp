@@ -170,7 +170,9 @@ private fun IconControlButton(
 }
 
 @Composable
-fun ButtonCounter() {
+fun ButtonCounter(
+    modifier: Modifier = Modifier
+) {
     var valueCounter by remember {
         mutableIntStateOf(1)
     }

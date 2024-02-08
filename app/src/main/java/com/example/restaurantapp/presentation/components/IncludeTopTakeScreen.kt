@@ -1,8 +1,7 @@
 package com.example.restaurantapp.presentation.components
 
-import androidx.compose.foundation.Image
+import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,18 +20,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.restaurantapp.R
 import com.example.restaurantapp.presentation.components.animations.SpacerHeight
 import com.example.restaurantapp.presentation.components.animations.SpacerWidth
 import com.example.restaurantapp.presentation.models.User
-import com.example.restaurantapp.presentation.theme.Background
-import com.example.restaurantapp.presentation.theme.BackgroundSecondary
-import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
+import com.example.restaurantapp.presentation.theme.DarkPlaceholder
 
 @Composable
 fun IncludeTopTakeScreen(
@@ -40,6 +36,7 @@ fun IncludeTopTakeScreen(
     user: User,
     modifier: Modifier = Modifier
 ) {
+    Log.i("iii", user.userName)
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -49,11 +46,12 @@ fun IncludeTopTakeScreen(
             modifier = Modifier,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .size(35.dp)
-                    .clip(CircleShape),
-                painter = painterResource(id = R.drawable.table_image),
+                    .clip(CircleShape)
+                    .background(DarkPlaceholder),
+                model = user.userAvatar,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )

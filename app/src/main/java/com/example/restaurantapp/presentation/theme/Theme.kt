@@ -63,10 +63,8 @@ fun RestaurantAppTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor =
-                if (darkTheme) BackgroundModal.toArgb() else BackgroundSecondaryDark.toArgb()
-            window.navigationBarColor =
-                if (!darkTheme) BackgroundModal.toArgb() else DarkPlaceholder.toArgb()
+            window.statusBarColor = if (darkTheme) BackgroundModal.toArgb() else BackgroundSecondaryDark.toArgb()
+            window.navigationBarColor = if (!darkTheme) BackgroundModal.toArgb() else DarkPlaceholder.toArgb()
         }
     }
 

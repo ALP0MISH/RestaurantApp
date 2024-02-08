@@ -42,6 +42,7 @@ class SignUpViewModel @Inject constructor(
             is SignUpEvent.OnPasswordChange -> doPasswordChange(event)
             is SignUpEvent.OnLoginClick -> onLoginClick()
             is SignUpEvent.OnSingUpCLick -> onSingUpCLick()
+            else -> {}
         }
     }
 

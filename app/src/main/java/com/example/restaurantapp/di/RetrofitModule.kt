@@ -1,5 +1,6 @@
 package com.example.restaurantapp.di
 
+import com.example.socialapp.data.cloud.service.BasketService
 import com.example.socialapp.data.cloud.service.LoginService
 import com.example.socialapp.data.cloud.service.MenuService
 import com.example.socialapp.data.cloud.service.UserService
@@ -27,24 +28,26 @@ class RetrofitModule {
             .client(
                 OkHttpClient.Builder()
                     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                    .addInterceptor(Interceptor { chain ->
-                        val request = chain.request()
-                            .newBuilder()
-                            .addHeader(
-                                name = "X-Parse-Application-Id",
-                                value = APPLICATION_ID
-                            )
-                            .addHeader(
-                                name = "X-Parse-REST-API-Key",
-                                value = REST_API_KYE
-                            )
-                            .addHeader(
-                                name = "Content-Type",
-                                value = "application/json"
-                            )
-                            .build()
-                        return@Interceptor chain.proceed(request = request)
-                    }).build()
+                    .addInterceptor(
+                        Interceptor { chain ->
+                            val request = chain.request()
+                                .newBuilder()
+                                .addHeader(
+                                    name = "X-Parse-Application-Id",
+                                    value = APPLICATION_ID
+                                )
+                                .addHeader(
+                                    name = "X-Parse-REST-API-Key",
+                                    value = REST_API_KYE
+                                )
+                                .addHeader(
+                                    name = "Content-Type",
+                                    value = "application/json"
+                                )
+                                .build()
+                            return@Interceptor chain.proceed(request = request)
+                        },
+                    ).build()
             ).build()
     }
 
@@ -62,4 +65,10 @@ class RetrofitModule {
     fun provideMenuService(
         retrofit: Retrofit
     ): MenuService = retrofit.create(MenuService::class.java)
+
+    @Provides
+    fun provideBasketService(
+        retrofit: Retrofit
+    ): BasketService = retrofit.create(BasketService::class.java)
+
 }

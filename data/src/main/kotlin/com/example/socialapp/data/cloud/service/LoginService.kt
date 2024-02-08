@@ -12,7 +12,7 @@ import retrofit2.http.Query
 private const val USERS = "Users"
 private const val WHERE = "where"
 
-interface LoginService {
+interface   LoginService {
 
     @GET(USERS)
     suspend fun signIn(

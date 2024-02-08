@@ -40,4 +40,14 @@
     <string name="sad_noresunt">Sad no result</string>
     <string name="serch_title">We cannot find the item you are searching for, maybe a little spelling mistake?</string>
     <string name="menu_name">Hot Dishes, Fast Dood, Salads</string>
+    <string name="frofile">Profile</string>
+    <string name="order_food">Order Food</string>
+    <string name="your_name">Your Name</string>
+    <string name="email_hilt">your@gamil.con</string>
+    <string name="name_hilt">Name</string>
+    <string name="your_lastname">Your LastName</string>
+    <string name="your_email">Your Email</string>
+    <string name="about_me_hint">Design</string>
+    <string name="about_me">About Me</string>
+    <string name="your_password">1122334455</string>
 </resources>

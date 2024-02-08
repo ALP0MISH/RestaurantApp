@@ -1,16 +1,15 @@
 package com.example.restaurantapp.presentation.screens.take_away_screen
 
+import android.app.Activity
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExtendedFloatingActionButton
@@ -23,7 +22,6 @@ import androidx.compose.material.SnackbarResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,27 +31,26 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.restaurantapp.R
-import com.example.restaurantapp.presentation.components.pagers.HorizontalPagerWithIndicator
-import com.example.restaurantapp.presentation.components.pagers.HorizontalPagerContent
-import com.example.restaurantapp.presentation.components.pagers.BottomLazyColumn
 import com.example.restaurantapp.presentation.components.IncludeTopTakeScreen
-import com.example.restaurantapp.presentation.components.animations.SpacerHeight
-import com.example.restaurantapp.presentation.theme.Background
 import com.example.restaurantapp.presentation.components.animations.ShimmerList
-import com.example.restaurantapp.presentation.screens.detail_screen.ItemDetailType
+import com.example.restaurantapp.presentation.components.animations.SpacerHeight
+import com.example.restaurantapp.presentation.components.pagers.BottomLazyColumn
+import com.example.restaurantapp.presentation.components.pagers.HorizontalPagerContent
+import com.example.restaurantapp.presentation.components.pagers.HorizontalPagerWithIndicator
+import com.example.restaurantapp.presentation.models.BasketMenuUi
+import com.example.restaurantapp.presentation.models.MenuUi
+import com.example.restaurantapp.presentation.screens.basket_screen.BasketUIState
+import com.example.restaurantapp.presentation.theme.Background
+import com.example.restaurantapp.presentation.theme.BackgroundModal
 import com.example.restaurantapp.presentation.theme.BackgroundSecondary
 import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
-import com.example.restaurantapp.presentation.theme.ExtraLarge
 import com.example.restaurantapp.presentation.theme.ExtraLargeSpacing
-import com.example.restaurantapp.presentation.theme.ExtraMediumSpacing
-import com.example.restaurantapp.presentation.theme.LargeSpacing
-import com.example.restaurantapp.presentation.theme.MediumSpacing
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -62,17 +59,19 @@ import kotlinx.coroutines.launch
 fun TakeAwayScreen(
     uiStateFlow: StateFlow<TakeAwayUiState>,
     navigateToSearchScreen: () -> Unit,
+    addToBasket: (MenuUi) -> Unit,
     navigateToDetailScreen: (String, String) -> Unit,
     retryMenu: () -> Unit,
 ) {
-
-    val systemUiController = rememberSystemUiController()
-
+    val theme: Boolean = isSystemInDarkTheme()
+    val view = LocalView.current
     SideEffect {
-        systemUiController.setStatusBarColor(Background)
+        val window = (view.context as Activity).window
+        window.statusBarColor =
+            if (theme) BackgroundSecondaryDark.toArgb() else BackgroundSecondary.toArgb()
     }
     val fullScreenModifier = Modifier
-        .background(Background)
+        .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary)
         .fillMaxSize()
     when (val uiState = uiStateFlow.collectAsStateWithLifecycle().value) {
         is TakeAwayUiState.Loading -> ShimmerList(modifier = fullScreenModifier)
@@ -83,7 +82,8 @@ fun TakeAwayScreen(
                 modifier = fullScreenModifier,
                 uiState = uiState,
                 navigateToDetailScreen = navigateToDetailScreen,
-                navigateToSearchScreen = navigateToSearchScreen
+                navigateToSearchScreen = navigateToSearchScreen,
+                addToBasket = addToBasket,
             )
         }
 
@@ -100,6 +100,7 @@ fun TakeAwayScreen(
 @Composable
 fun LoadedScreen(
     uiState: TakeAwayUiState.Loaded,
+    addToBasket: (MenuUi) -> Unit,
     navigateToDetailScreen: (String, String) -> Unit,
     navigateToSearchScreen: () -> Unit,
     modifier: Modifier = Modifier
@@ -166,6 +167,7 @@ fun LoadedScreen(
                     navigateToSearchScreen = navigateToSearchScreen,
                     user = uiState.user
                 )
+                Log.i("Abdurahman", "LoadedScreen = ${uiState.user}")
                 SpacerHeight(ExtraLargeSpacing)
                 HorizontalPagerWithIndicator(
                     menu = uiState.hotDishes,
@@ -175,7 +177,8 @@ fun LoadedScreen(
                 HorizontalPagerContent(
                     scrollState = scrollState,
                     navigateToDetailScreen = navigateToDetailScreen,
-                    uiState = uiState
+                    uiState = uiState,
+                    addToBasket = addToBasket,
                 )
                 Column(
                     modifier = Modifier

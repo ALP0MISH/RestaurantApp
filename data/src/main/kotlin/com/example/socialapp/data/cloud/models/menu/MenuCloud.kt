@@ -35,20 +35,22 @@ data class MenuCloud(
     @SerializedName(DESCRIPTION)
     val description: String,
     @SerializedName(RATING)
-    val rating: Float
+    val rating: String
 ) : java.io.Serializable
 
 fun MenuCloud.toDomain() = this.run {
     MenuDomain(
         createdAt = createdAt,
         gram = gram,
-        image = image.url,
+        imageUrl = image.url,
         objectId = objectId,
         price = price,
         title = title,
         updatedAt = updatedAt,
-        category_id = category_id,
+        categoryId = category_id,
         destination = description,
-        rating = rating
+        rating = rating,
+        imageName = image.name,
+        imageType = image.type
     )
 }

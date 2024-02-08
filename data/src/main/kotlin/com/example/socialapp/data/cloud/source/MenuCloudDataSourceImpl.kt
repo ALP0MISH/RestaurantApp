@@ -15,9 +15,7 @@ class MenuCloudDataSourceImpl @Inject constructor(
         foodId: String
     ): List<CategoryCloud> {
         return try {
-            val response = menuService.getCategories(
-                foodId
-            )
+            val response = menuService.getCategories(foodId)
             if (response.isSuccessful) response.body()?.categories ?: emptyList()
             else emptyList()
         } catch (e: CancellationException) {

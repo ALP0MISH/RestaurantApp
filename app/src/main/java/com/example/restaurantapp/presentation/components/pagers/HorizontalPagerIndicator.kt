@@ -27,7 +27,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
-import com.example.restaurantapp.presentation.screens.detail_screen.ItemDetailType
+import com.example.restaurantapp.presentation.models.MenuUi
 import com.example.restaurantapp.presentation.screens.take_away_screen.TakeAwayUiState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -39,6 +39,7 @@ import kotlinx.coroutines.launch
 fun HorizontalPagerContent(
     scrollState: ScrollState,
     uiState: TakeAwayUiState.Loaded,
+    addToBasket: (MenuUi) -> Unit,
     navigateToDetailScreen: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -109,7 +110,9 @@ fun HorizontalPagerContent(
         ) {
             items(items = currentMenu, key = { it.objectId }) { menuDomain ->
                 HorizontalPagerItem(
-                    menu = menuDomain, navigateToDetailScreen = navigateToDetailScreen
+                    menu = menuDomain,
+                    navigateToDetailScreen = navigateToDetailScreen,
+                    addToBasket = addToBasket,
                 )
             }
         }

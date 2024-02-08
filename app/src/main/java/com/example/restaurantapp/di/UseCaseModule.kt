@@ -1,15 +1,28 @@
 package com.example.restaurantapp.di
 
+import com.example.restaurantapp.domain.repository.BasketRepository
 import com.example.restaurantapp.domain.repository.CurrentUserRepository
 import com.example.restaurantapp.domain.repository.LoginRepository
 import com.example.restaurantapp.domain.repository.MenuRepository
 import com.example.restaurantapp.domain.repository.UserRepository
-import com.example.restaurantapp.domain.use_cases.current_user.FetchAllUserUseCase
+import com.example.restaurantapp.domain.use_cases.ClearCurrentUserCacheUseCase
+import com.example.restaurantapp.domain.use_cases.ClearCurrentUserCacheUseCaseImpl
+import com.example.restaurantapp.domain.use_cases.basket.AddToBasketUseCase
+import com.example.restaurantapp.domain.use_cases.basket.AddToBasketUseCaseImpl
+import com.example.restaurantapp.domain.use_cases.basket.FetchAllFromBasketUseCase
+import com.example.restaurantapp.domain.use_cases.basket.FetchAllFromBasketUseCaseImpl
+import com.example.restaurantapp.domain.use_cases.basket.FetchBasketByIdUseCase
+import com.example.restaurantapp.domain.use_cases.basket.FetchBasketByIdUseCaseImpl
+import com.example.restaurantapp.domain.use_cases.current_user.ChangeUserInfoUseCase
+import com.example.restaurantapp.domain.use_cases.current_user.ChangeUserInfoUseCaseImpl
 import com.example.restaurantapp.domain.use_cases.current_user.FetchCurrentUserUseCase
 import com.example.restaurantapp.domain.use_cases.current_user.FetchCurrentUserUseCaseImpl
-import com.example.restaurantapp.domain.use_cases.current_user.FetchUserUseCaseImpl
+import com.example.restaurantapp.domain.use_cases.current_user.FetchUserFromCloudUseCase
+import com.example.restaurantapp.domain.use_cases.current_user.FetchUserFromCloudUseCaseImpl
 import com.example.restaurantapp.domain.use_cases.current_user.IsOnboardingPassedUseCase
 import com.example.restaurantapp.domain.use_cases.current_user.IsOnboardingPassedUseCaseImpl
+import com.example.restaurantapp.domain.use_cases.current_user.SaveCurrentUserObjectId
+import com.example.restaurantapp.domain.use_cases.current_user.SaveCurrentUserObjectIdImpl
 import com.example.restaurantapp.domain.use_cases.current_user.SaveCurrentUserUseCase
 import com.example.restaurantapp.domain.use_cases.current_user.SaveCurrentUserUseCaseImpl
 import com.example.restaurantapp.domain.use_cases.current_user.SetOnboardingShowedUseCase
@@ -52,7 +65,8 @@ class UseCaseModule {
 
     @Provides
     fun provideSignUpUseCase(
-        repository: LoginRepository, userRepository: UserRepository
+        repository: LoginRepository,
+        userRepository: UserRepository
     ): SignUpUseCase = SignUpUseCaseImpl(
         repository = repository, userRepository = userRepository
     )
@@ -90,13 +104,6 @@ class UseCaseModule {
         menuRepository: MenuRepository
     ): FetchMenuInteractor = FetchMenuInteractorImpl(
         menuRepository = menuRepository
-    )
-
-    @Provides
-    fun provideFetchUserUseCase(
-        repository: CurrentUserRepository
-    ): FetchAllUserUseCase = FetchUserUseCaseImpl(
-        currentUserRepository = repository
     )
 
     @Provides
@@ -149,4 +156,52 @@ class UseCaseModule {
         menuRepository = menuRepository
     )
 
+    @Provides
+    fun provideFetchAllFromBasketUseCase(
+        menuRepository: BasketRepository
+    ): FetchAllFromBasketUseCase = FetchAllFromBasketUseCaseImpl(
+        repository = menuRepository
+    )
+
+    @Provides
+    fun provideAddToBasketUseCase(
+        menuRepository: BasketRepository
+    ): AddToBasketUseCase = AddToBasketUseCaseImpl(
+        repository = menuRepository
+    )
+
+    @Provides
+    fun provideFetchUserFromCloudUseCase(
+        repository: UserRepository
+    ): FetchUserFromCloudUseCase = FetchUserFromCloudUseCaseImpl(
+        repository = repository
+    )
+
+    @Provides
+    fun provideFetchBasketByIdUseCase(
+        menuRepository: BasketRepository
+    ): FetchBasketByIdUseCase = FetchBasketByIdUseCaseImpl(
+        repository = menuRepository
+    )
+
+    @Provides
+    fun provideChangeUserInfoUseCase(
+        repository: UserRepository
+    ): ChangeUserInfoUseCase = ChangeUserInfoUseCaseImpl(
+        repository = repository
+    )
+
+    @Provides
+    fun provideSaveCurrentUserObjectId(
+        repository: CurrentUserRepository
+    ): SaveCurrentUserObjectId = SaveCurrentUserObjectIdImpl(
+        repository = repository
+    )
+
+    @Provides
+    fun prvideClearCurrentUserCacheUseCase(
+        repository: CurrentUserRepository
+    ): ClearCurrentUserCacheUseCase = ClearCurrentUserCacheUseCaseImpl(
+        userRepository = repository
+    )
 }

@@ -47,7 +47,6 @@ import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
 import com.example.restaurantapp.presentation.theme.DarkPlaceholder
 import com.example.restaurantapp.presentation.theme.ExtraLargeSpacing
 import com.example.restaurantapp.presentation.theme.ExtraMediumSpacing
-import com.example.restaurantapp.presentation.theme.SearchColor
 import kotlinx.coroutines.launch
 
 @SuppressLint("RememberReturnType")
@@ -69,7 +68,7 @@ fun BottomLazyColumn(
                     .padding(top = ExtraMediumSpacing),
                 text = stringResource(id = R.string.combination),
                 style = MaterialTheme.typography.bodyLarge,
-                color = Color.White
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
         items(
@@ -77,13 +76,13 @@ fun BottomLazyColumn(
             key = { list -> list.objectId }
         ) { list ->
             LazyColumnItem(
-                image = list.image,
+                image = list.imageUrl,
                 objectId = list.objectId,
                 title = list.title,
                 gram = list.gram,
                 price = list.price,
                 navigateToDetailScreen = navigateToDetailScreen,
-                categoryId = list.category_id,
+                categoryId = list.categoryId,
                 modifier = Modifier.padding(top = ExtraLargeSpacing),
             )
         }

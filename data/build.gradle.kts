@@ -24,7 +24,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
-    implementation (libs.gson)
+    implementation(libs.gson)
 
     implementation(libs.retrofit)
     implementation(libs.logging.interceptor)

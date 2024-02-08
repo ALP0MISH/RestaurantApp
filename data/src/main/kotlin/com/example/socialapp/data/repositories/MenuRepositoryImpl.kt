@@ -73,8 +73,8 @@ class MenuRepositoryImpl @Inject constructor(
         return try {
             val params = "{\"objectId\":\"$objectId\"}"
             val response = menuService.fetchSaladsById(params)
-            val user = response.body()?.results?.first()?.toDomain() ?: MenuDomain.unknown
-            Result.Success(data = user)
+            val menu = response.body()?.results?.first()?.toDomain() ?: MenuDomain.unknown
+            Result.Success(data = menu)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
@@ -87,8 +87,8 @@ class MenuRepositoryImpl @Inject constructor(
         return try {
             val params = "{\"objectId\":\"$objectId\"}"
             val response = menuService.fetchDessertsById(params)
-            val user = response.body()?.results?.first()?.toDomain() ?: MenuDomain.unknown
-            Result.Success(data = user)
+            val menu = response.body()?.results?.first()?.toDomain() ?: MenuDomain.unknown
+            Result.Success(data = menu)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
@@ -101,8 +101,8 @@ class MenuRepositoryImpl @Inject constructor(
         return try {
             val params = "{\"objectId\":\"$objectId\"}"
             val response = menuService.fetchFastFoodById(params)
-            val user = response.body()?.results?.first()?.toDomain() ?: MenuDomain.unknown
-            Result.Success(data = user)
+            val menu = response.body()?.results?.first()?.toDomain() ?: MenuDomain.unknown
+            Result.Success(data = menu)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
@@ -115,8 +115,8 @@ class MenuRepositoryImpl @Inject constructor(
         return try {
             val params = "{\"objectId\":\"$objectId\"}"
             val response = menuService.fetchDrinkById(params)
-            val user = response.body()?.results?.first()?.toDomain() ?: MenuDomain.unknown
-            Result.Success(data = user)
+            val menu = response.body()?.results?.first()?.toDomain() ?: MenuDomain.unknown
+            Result.Success(data = menu)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
@@ -129,8 +129,8 @@ class MenuRepositoryImpl @Inject constructor(
         return try {
             val params = "{\"objectId\":\"$objectId\"}"
             val response = menuService.fetchHotDishesById(params)
-            val user = response.body()?.results?.first()?.toDomain() ?: MenuDomain.unknown
-            Result.Success(data = user)
+            val menu = response.body()?.results?.first()?.toDomain() ?: MenuDomain.unknown
+            Result.Success(data = menu)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

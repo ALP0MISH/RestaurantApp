@@ -11,7 +11,7 @@ import com.example.restaurantapp.presentation.auth.signup.SignUpDestination
 import com.example.restaurantapp.presentation.extentions.createMutableSharedFlowAsSingleLiveEvent
 import com.example.restaurantapp.presentation.managers.GlobalNavigatorManager
 import com.example.restaurantapp.presentation.managers.toast.ShowToastUseCase
-import com.example.restaurantapp.presentation.navigations.BottomTabs
+import com.example.restaurantapp.presentation.navigations.navGraph.MAIN_NAV_GRAPH_ROUTE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -29,7 +29,7 @@ class LoginViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
     private val saveCurrentUserUseCase: SaveCurrentUserUseCase,
     private val navigatorManager: GlobalNavigatorManager,
-    private val showToastUseCase: ShowToastUseCase
+    private val showToastUseCase: ShowToastUseCase,
 
 ) : ViewModel() {
 
@@ -83,12 +83,9 @@ class LoginViewModel @Inject constructor(
                     return
                 }
                 saveCurrentUserUseCase(user)
-                navigatorManager.navigateTo(BottomTabs.Home.route)
+                navigatorManager.navigateTo(MAIN_NAV_GRAPH_ROUTE, true)
                 Log.e("RestaurantApp", "data = ${result.message}")
             }
-        }
-        _uiState.update { currentState ->
-            currentState.copy(isSuccessesAuth = true)
         }
     }
 

@@ -5,7 +5,7 @@ import com.example.restaurantapp.domain.models.UserDomain
 import com.example.restaurantapp.domain.repository.LoginRepository
 import com.example.restaurantapp.domain.repository.UserRepository
 
-class SignUpUseCaseImpl constructor(
+class SignUpUseCaseImpl(
     private val repository: LoginRepository,
     private val userRepository: UserRepository
 ) : SignUpUseCase {

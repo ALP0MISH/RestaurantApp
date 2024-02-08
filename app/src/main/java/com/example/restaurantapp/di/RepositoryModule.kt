@@ -1,9 +1,11 @@
 package com.example.restaurantapp.di
 
+import com.example.restaurantapp.domain.repository.BasketRepository
 import com.example.restaurantapp.domain.repository.CurrentUserRepository
 import com.example.restaurantapp.domain.repository.LoginRepository
 import com.example.restaurantapp.domain.repository.MenuRepository
 import com.example.restaurantapp.domain.repository.UserRepository
+import com.example.socialapp.data.repositories.BasketRepositoryImpl
 import com.example.socialapp.data.repositories.CurrentUserRepositoryImpl
 import com.example.socialapp.data.repositories.LoginRepositoryImpl
 import com.example.socialapp.data.repositories.MenuRepositoryImpl
@@ -16,6 +18,7 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {
+
     @Binds
     fun bindLoginRepository(
         impl: LoginRepositoryImpl
@@ -36,4 +39,8 @@ interface RepositoryModule {
         impl: MenuRepositoryImpl
     ): MenuRepository
 
+    @Binds
+    fun bindBasketRepository(
+        impl: BasketRepositoryImpl
+    ): BasketRepository
 }

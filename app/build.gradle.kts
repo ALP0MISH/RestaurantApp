@@ -53,7 +53,7 @@ android {
     }
 }
 
- //Allow references to generated code
+//Allow references to generated code
 kapt {
     correctErrorTypes = true
 }
@@ -63,14 +63,11 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
     //additional Icons
-    implementation (libs.material)
+    implementation(libs.material)
+
     implementation(libs.accompanist.pager)
 
-    //FireBase
-    implementation (libs.firebase.auth.ktx)
-    implementation (libs.play.services.auth)
-
-    implementation (libs.androidx.material.icons.extended)
+    implementation(libs.androidx.material.icons.extended)
 
     implementation(libs.accompanist.pager.indicators)
 
@@ -101,7 +98,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     //Lottie
-    implementation (libs.lottie.compose)
+    implementation(libs.lottie.compose)
 
     //Hilt
     implementation(libs.hilt.android)
@@ -111,7 +108,6 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.accompanist.systemuicontroller)
-
 
     val bom = libs.androidx.compose.bom
     implementation(platform(bom))

@@ -39,13 +39,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.restaurantapp.presentation.components.animations.SpacerWidth
 import com.example.restaurantapp.presentation.models.MenuUi
-import com.example.restaurantapp.presentation.screens.detail_screen.ItemDetailType
 import com.example.restaurantapp.presentation.theme.BackgroundModal
 import com.example.restaurantapp.presentation.theme.BackgroundSecondary
 import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
-import com.example.restaurantapp.presentation.theme.DarkGrey
 import com.example.restaurantapp.presentation.theme.DarkPlaceholder
-import com.example.restaurantapp.presentation.theme.SearchColor
 import com.google.accompanist.pager.HorizontalPagerIndicator
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -86,10 +83,10 @@ fun HorizontalPagerWithIndicator(
 fun HorizontalPagerItem(
     menu: MenuUi,
     navigateToDetailScreen: (String, String) -> Unit,
+    addToBasket: (MenuUi) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var isButtonCounterVisible by remember { mutableStateOf(false) }
-
     Box(
         modifier = modifier
             .height(265.dp)
@@ -99,7 +96,7 @@ fun HorizontalPagerItem(
             .clickable {
                 navigateToDetailScreen(
                     menu.objectId,
-                    menu.category_id,
+                    menu.categoryId,
                 )
             },
         contentAlignment = Alignment.TopCenter
@@ -112,7 +109,7 @@ fun HorizontalPagerItem(
                 .align(Alignment.BottomCenter)
         ) {
             AsyncImage(
-                model = menu.image,
+                model = menu.imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -173,6 +170,7 @@ fun HorizontalPagerItem(
                         .clip(CircleShape)
                         .clickable {
                             isButtonCounterVisible = !isButtonCounterVisible
+                            addToBasket(menu)
                         }
                         .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary),
 
@@ -187,7 +185,11 @@ fun HorizontalPagerItem(
                         )
                     }
                     if (isButtonCounterVisible) {
-                        ButtonCounter()
+                        ButtonCounter(
+                            modifier = Modifier.clickable {
+                                addToBasket(menu)
+                            }
+                        )
                     }
                 }
             }
@@ -212,17 +214,17 @@ fun IncludeHorizontalPagerWithIndicator(
             .clickable {
                 navigateToDetailScreen(
                     menu.objectId,
-                    menu.category_id,
+                    menu.categoryId,
                 )
             }
     ) {
         AsyncImage(
-            model = menu.image,
+            model = menu.imageUrl,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(DarkPlaceholder)
+                .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundModal)
         )
     }
 }
@@ -233,7 +235,8 @@ fun IncludeHorizontalPagerWithIndicatorPreview() {
     MaterialTheme {
         HorizontalPagerItem(
             menu = MenuUi.unknown,
-            navigateToDetailScreen = { param1, param2 -> }
+            navigateToDetailScreen = { param1, param2 -> },
+            addToBasket = {},
         )
     }
 }

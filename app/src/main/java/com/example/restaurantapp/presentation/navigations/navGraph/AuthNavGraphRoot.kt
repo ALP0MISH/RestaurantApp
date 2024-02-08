@@ -1,3 +1,4 @@
+
 package com.example.restaurantapp.presentation.navigations.navGraph
 
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ const val AUTH_NAV_GRAPH_ROUTE = "auth_nav_graph_route"
 
 @Composable
 fun AuthNavGraphRoot() {
+
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -42,19 +44,14 @@ fun AuthNavGraphRoot() {
                 navigateToLoginScreen = { viewModel.onboardingFinished() }
             )
         }
-        composable(SelectCategoryDestination.route()) {
-            val viewModel: SelectCategoryViewModel = hiltViewModel()
-            val navcontroller by viewModel.navControllerFlow.collectAsStateWithLifecycle(
-                initialValue = null
-            )
-            LaunchedEffect(key1 = navcontroller) {
-                if (navcontroller != null) navController.navigate(navcontroller!!)
-            }
-            SelectCategory(
-                isTakeAwayScreen = { viewModel.onTakeAwayClick() },
-                isTableScreen = { viewModel.onTakeAwayClick() }
-            )
-        }
+//        composable(SelectCategoryDestination.route()) {
+//            val viewModel: SelectCategoryViewModel = hiltViewModel()
+//
+//            SelectCategory(
+//                isTakeAwayScreen = { viewModel.onTakeAwayClick() },
+//                isTableScreen = { viewModel.onTakeAwayClick() }
+//            )
+//        }
         composable(LoginDestination.route()) {
             val viewModel: LoginViewModel = hiltViewModel()
             val navcontroller by viewModel.navControllerFlow.collectAsStateWithLifecycle(
@@ -68,6 +65,7 @@ fun AuthNavGraphRoot() {
                 onEvent = viewModel::onEvent,
             )
         }
+
         composable(SignUpDestination.route()) {
             val viewModel: SignUpViewModel = hiltViewModel()
             val navcontroller by viewModel.navControllerFlow.collectAsStateWithLifecycle(
