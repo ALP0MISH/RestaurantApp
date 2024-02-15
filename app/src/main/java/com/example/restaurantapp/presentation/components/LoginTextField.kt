@@ -1,5 +1,7 @@
 package com.example.restaurantapp.presentation.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,6 +25,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.restaurantapp.R
+import com.example.restaurantapp.presentation.theme.BackgroundModal
+import com.example.restaurantapp.presentation.theme.BackgroundSecondary
 import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
 import com.example.restaurantapp.presentation.theme.ExtraLargeSpacing
 
@@ -46,17 +50,17 @@ fun LoginTextField(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
 
-            focusedContainerColor = BackgroundSecondaryDark,
+            focusedContainerColor = if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary,
             disabledContainerColor = MaterialTheme.colorScheme.secondary,
-            unfocusedContainerColor = BackgroundSecondaryDark,
+            unfocusedContainerColor = if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary,
 
-            focusedTextColor = Color.White,
-            disabledTextColor = Color.White,
-            unfocusedTextColor = Color.White,
+            focusedTextColor = MaterialTheme.colorScheme.onBackground,
+            disabledTextColor = MaterialTheme.colorScheme.onBackground,
+            unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
 
-            focusedPlaceholderColor = Color.LightGray,
-            disabledLabelColor = Color.LightGray,
-            unfocusedLabelColor = Color.LightGray
+            focusedPlaceholderColor = if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary,
+            disabledLabelColor = if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary,
+            unfocusedLabelColor = if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary,
         ),
         maxLines = 1,
         keyboardOptions = KeyboardOptions.Default.copy(
@@ -68,7 +72,8 @@ fun LoginTextField(
         placeholder = {
             Text(
                 text = placeHolder,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
         },
         textStyle = MaterialTheme.typography.bodyMedium,
@@ -83,7 +88,7 @@ fun LoginTextField(
                         modifier = Modifier.size(24.dp),
                         painter = painterResource(id = iconId),
                         contentDescription = null,
-                        tint = Color.LightGray
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }

@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.restaurantapp.R
 import com.example.restaurantapp.presentation.components.IsVisibleItem
@@ -47,11 +48,12 @@ fun SearchScreen(
                 modifier = Modifier
             ) {
                 Row(
-                    modifier = Modifier.padding(ExtraLargeSpacing),
+                        modifier = Modifier.padding(ExtraLargeSpacing),
                 ) {
                     Text(
                         text = stringResource(id = R.string.search),
                         style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }
@@ -106,7 +108,7 @@ fun SearchScreen(
                         category = menu.categoryId,
                         gram = menu.gram,
                         image = menu.imageUrl,
-                        rating = menu.rating.toString(),
+                        rating = menu.rating,
                         navigateToDetailScreen = navigateToDetailScreen
                     )
                 }

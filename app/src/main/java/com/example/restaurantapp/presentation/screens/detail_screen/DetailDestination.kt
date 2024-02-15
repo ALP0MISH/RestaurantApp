@@ -8,11 +8,20 @@ interface DetailDestination {
     val route: String
 }
 
-object DetailsScrenDestination : DetailDestination {
-
+object DetailsScreenDestination : DetailDestination {
     const val menuId = "menuId"
     const val categoryId = "categoryId"
     override val route: String = "detail_screen"
-    val routeWithArgs = "$route/{$menuId}/{$categoryId}"
-    val arguments = listOf(navArgument(menuId) { type = NavType.StringType })
+    val routeWithArgs: String = "$route/{$menuId}/{$categoryId}"
+    fun getRouteWithArgs(categoryId: String?): String {
+        return if (categoryId != null) {
+            "$route/{$menuId}/{$categoryId}"
+        } else {
+            "$route/{$menuId}"
+        }
+    }
+
+    val arguments = listOf(
+        navArgument(menuId) { type = NavType.StringType }
+    )
 }

@@ -15,7 +15,7 @@ private const val USER_AVATAR = "user_avatar"
 private const val LASTNAME = "last_name"
 private const val NAME = "name"
 
-data class  UserCloud(
+data class UserCloud(
     @SerializedName(CREATED_AT)
     val createdAt: String,
     @SerializedName(EMAIL)

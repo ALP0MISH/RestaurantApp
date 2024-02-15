@@ -1,10 +1,10 @@
 package com.example.restaurantapp.presentation.screens.take_away_screen
 
+import android.net.ConnectivityManager
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.restaurantapp.domain.common.Result
-import com.example.restaurantapp.domain.use_cases.ClearCurrentUserCacheUseCase
 import com.example.restaurantapp.domain.use_cases.current_user.FetchCurrentUserUseCase
 import com.example.restaurantapp.domain.use_cases.interactor.FetchMenuInteractor
 import com.example.restaurantapp.presentation.managers.toast.ShowToastUseCase
@@ -20,15 +20,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+const val INTERNET_ERROR_MESSAGE = "No internet connection"
+
 @HiltViewModel
 class TakeAwayViewModel @Inject constructor(
     private val menuInteractor: FetchMenuInteractor,
     private val showToastUseCase: ShowToastUseCase,
     private val fetchAllUserUseCase: FetchCurrentUserUseCase,
-    private val clearCurrentUserCacheUseCase: ClearCurrentUserCacheUseCase
+    private val connectivityManager: ConnectivityManager,
 ) : ViewModel() {
-
-    private var isMenuFetched = false
 
     private val _uiStateFlow = MutableStateFlow<TakeAwayUiState>(TakeAwayUiState.Loading)
     val uiState: StateFlow<TakeAwayUiState> = _uiStateFlow.asStateFlow()
@@ -38,42 +38,53 @@ class TakeAwayViewModel @Inject constructor(
     }
 
     init {
-        if (!isMenuFetched) {
-            fetchMenu()
-        }
-        clearCurrentUserCacheUseCase.clearCurrentUserCache()
+        fetchMenu()
     }
 
-    private fun fetchMenu() {
+    fun fetchMenu() {
+        if (!isNetworkAvailable()) {
+            _uiStateFlow.tryEmit(
+                TakeAwayUiState.Error(
+                    message = INTERNET_ERROR_MESSAGE
+                )
+            )
+            return
+        }
+
         viewModelScope.launch(handle + Dispatchers.IO) {
             _uiStateFlow.tryEmit(TakeAwayUiState.Loading)
-            val result = menuInteractor.fetchAll()
-            var loaded = TakeAwayUiState.Loaded()
-            when (result) {
+            when (val result = menuInteractor.fetchAll()) {
                 is Result.Error -> {
+                    result.message?.let { message ->
+                        _uiStateFlow.tryEmit(
+                            TakeAwayUiState.Error(
+                                message = message
+                            )
+                        )
+                    }
                     showToastUseCase.showToast(result.message ?: DEFAULT_ERROR_MESSAGE)
-                    Log.e("Restaurant", "message = ${result.message}")
                 }
 
                 is Result.Success -> {
-                    val menu = result.data
-                    if (menu == null) {
-                        showToastUseCase.showToast(result.message ?: DEFAULT_ERROR_MESSAGE)
-                        Log.e("Restaurant", "data = ${result.message}")
-                    } else {
-                        loaded = TakeAwayUiState.Loaded(
-                            drinks = result.data?.allDrinks?.map { it.toUi() } ?: emptyList(),
-                            desserts = result.data?.allDesserts?.map { it.toUi() } ?: emptyList(),
-                            hotDishes = result.data?.allHotDishes?.map { it.toUi() } ?: emptyList(),
-                            fastFoot = result.data?.allFastFoot?.map { it.toUi() } ?: emptyList(),
-                            salads = result.data?.allSalads?.map { it.toUi() } ?: emptyList(),
-                            user = fetchAllUserUseCase().toUser(),
+                    result.data.let { menu ->
+                        _uiStateFlow.tryEmit(
+                            TakeAwayUiState.Loaded(
+                                drinks = menu?.allDrinks?.map { it.toUi() } ?: emptyList(),
+                                desserts = menu?.allDesserts?.map { it.toUi() } ?: emptyList(),
+                                hotDishes = menu?.allHotDishes?.map { it.toUi() } ?: emptyList(),
+                                fastFoot = menu?.allFastFoot?.map { it.toUi() } ?: emptyList(),
+                                salads = menu?.allSalads?.map { it.toUi() } ?: emptyList(),
+                                user = fetchAllUserUseCase().toUser(),
+                            )
                         )
                     }
                 }
             }
-            _uiStateFlow.tryEmit(loaded)
-            isMenuFetched = true
         }
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 }

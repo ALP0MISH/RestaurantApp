@@ -8,7 +8,7 @@ data class BasketMenuDomain(
     val imageType: String,
     val price: String,
     val title: String,
-    val category_id: String,
+    val categoryId: String,
     val description: String,
     val rating: String
 ) : java.io.Serializable {
@@ -19,7 +19,7 @@ data class BasketMenuDomain(
             imageUrl = String(),
             price = String(),
             title = String(),
-            category_id = String(),
+            categoryId = String(),
             description = String(),
             rating = String(),
             imageName = String(),

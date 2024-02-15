@@ -50,4 +50,7 @@
     <string name="about_me_hint">Design</string>
     <string name="about_me">About Me</string>
     <string name="your_password">1122334455</string>
+    <string name="basket">Basket</string>
+    <string name="hello">Hello</string>
+    <string name="edit_profile">Profile</string>
 </resources>

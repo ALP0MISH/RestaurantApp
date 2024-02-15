@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowRightAlt
 import androidx.compose.material.icons.filled.Scale
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -83,6 +84,7 @@ fun HorizontalPagerWithIndicator(
 fun HorizontalPagerItem(
     menu: MenuUi,
     navigateToDetailScreen: (String, String) -> Unit,
+    navigateToBasketScreen: () -> Unit,
     addToBasket: (MenuUi) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -114,7 +116,7 @@ fun HorizontalPagerItem(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(DarkPlaceholder)
+                    .background(if (isSystemInDarkTheme()) DarkPlaceholder else BackgroundSecondary)
                     .height(165.dp)
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -166,14 +168,13 @@ fun HorizontalPagerItem(
                 Box(
                     modifier = Modifier
                         .padding(end = 6.dp)
-                        .width(70.dp)
+                        .size(32.dp)
                         .clip(CircleShape)
+                        .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary)
                         .clickable {
                             isButtonCounterVisible = !isButtonCounterVisible
                             addToBasket(menu)
-                        }
-                        .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary),
-
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     if (!isButtonCounterVisible) {
@@ -185,10 +186,15 @@ fun HorizontalPagerItem(
                         )
                     }
                     if (isButtonCounterVisible) {
-                        ButtonCounter(
-                            modifier = Modifier.clickable {
-                                addToBasket(menu)
-                            }
+                        Icon(
+                            imageVector = Icons.Default.ArrowRightAlt,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(20.dp)
+                                .clickable {
+                                    navigateToBasketScreen()
+                                },
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -224,7 +230,7 @@ fun IncludeHorizontalPagerWithIndicator(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundModal)
+                .background(if (isSystemInDarkTheme()) DarkPlaceholder else BackgroundModal)
         )
     }
 }
@@ -237,6 +243,7 @@ fun IncludeHorizontalPagerWithIndicatorPreview() {
             menu = MenuUi.unknown,
             navigateToDetailScreen = { param1, param2 -> },
             addToBasket = {},
+            navigateToBasketScreen = {}
         )
     }
 }

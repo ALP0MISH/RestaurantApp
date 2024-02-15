@@ -54,8 +54,7 @@ fun ChangeUserInfoResponse.toDomain(): ChangeUserInfoDomain =
             userName = userName,
             email = email,
             password = password,
-            historyId = historyId,
-            objectId = objectId
+            aboutMe = historyId
         )
     }
 
@@ -66,7 +65,6 @@ fun ChangeUserInfoDomain.toCache(): ChangeUserInfoResponse =
             userName = userName,
             email = email,
             password = password,
-            historyId = historyId,
-            objectId = objectId
+            historyId = aboutMe
         )
     }

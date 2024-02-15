@@ -44,14 +44,6 @@ fun AuthNavGraphRoot() {
                 navigateToLoginScreen = { viewModel.onboardingFinished() }
             )
         }
-//        composable(SelectCategoryDestination.route()) {
-//            val viewModel: SelectCategoryViewModel = hiltViewModel()
-//
-//            SelectCategory(
-//                isTakeAwayScreen = { viewModel.onTakeAwayClick() },
-//                isTableScreen = { viewModel.onTakeAwayClick() }
-//            )
-//        }
         composable(LoginDestination.route()) {
             val viewModel: LoginViewModel = hiltViewModel()
             val navcontroller by viewModel.navControllerFlow.collectAsStateWithLifecycle(

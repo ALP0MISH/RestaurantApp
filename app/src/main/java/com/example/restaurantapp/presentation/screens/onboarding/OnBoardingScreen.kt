@@ -9,6 +9,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -46,6 +48,8 @@ import com.example.restaurantapp.R
 import com.example.restaurantapp.presentation.components.animations.SpacerHeight
 import com.example.restaurantapp.presentation.components.animations.advancedShadow
 import com.example.restaurantapp.presentation.screens.onboarding.models.OnBoardingPagerItem
+import com.example.restaurantapp.presentation.theme.BackgroundModal
+import com.example.restaurantapp.presentation.theme.DarkPlaceholder
 import com.example.restaurantapp.presentation.theme.INTER_FONT
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import kotlinx.coroutines.launch
@@ -200,7 +204,7 @@ fun OnBoardingAnimatedTextField(
             )
             .height(52.dp)
             .clip(RoundedCornerShape(16.dp))
-            .background(Color.White)
+            .background(if (isSystemInDarkTheme()) DarkPlaceholder else BackgroundModal)
             .clickable { onNextPage(page.isLastPage) }
     ) {
         Row(

@@ -48,7 +48,7 @@ fun BasketMenu.toDomain() = this.run {
         imageUrl = image.url,
         price = price,
         title = title,
-        category_id = category_id,
+        categoryId = category_id,
         description = description,
         rating = rating,
         imageName = image.name,
@@ -66,7 +66,7 @@ fun BasketMenuDomain.toDomain() = this.run {
         ),
         price = price,
         title = title,
-        category_id = category_id,
+        category_id = categoryId,
         description = description,
         rating = rating,
     )

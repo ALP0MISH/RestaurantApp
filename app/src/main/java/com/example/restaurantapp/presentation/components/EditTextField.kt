@@ -43,7 +43,7 @@ fun EditTextField(
             text = topText.uppercase(),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Bold,
-            color = Dark_Black
+            color = MaterialTheme.colorScheme.onBackground
         )
         SpacerHeight(MediumSpacing)
         TextField(
@@ -68,7 +68,7 @@ fun EditTextField(
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.SemiBold
                     ),
-                    color = grey
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             },
             trailingIcon = {

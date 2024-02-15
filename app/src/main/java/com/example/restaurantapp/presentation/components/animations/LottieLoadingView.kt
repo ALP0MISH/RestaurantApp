@@ -2,6 +2,8 @@ package com.example.restaurantapp.presentation.components.animations
 
 import android.content.Context
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -25,18 +27,15 @@ fun LottieLoadingView(
         modifier = modifier.defaultMinSize(300.dp),
         iterations = iterations
     )
+}
 
-    // OLD ANDROID VIEW IMPLEMENTATION
-//    val lottieView = remember {
-//        LottieAnimationView(context).apply {
-//            setAnimation(file)
-//            repeatCount = ValueAnimator.INFINITE
-//        }
-//    }
-//    AndroidView(
-//        { lottieView },
-//        modifier = modifier
-//    ) {
-//        it.playAnimation()
-//    }
+@Composable
+fun LottieWorkingLoadingView(context: Context) {
+    LottieLoadingView(
+        context = context,
+        file = "working.json",
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp)
+    )
 }

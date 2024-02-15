@@ -1,11 +1,11 @@
 package com.example.restaurantapp.presentation.auth.signup
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.restaurantapp.domain.common.Result
 import com.example.restaurantapp.domain.use_cases.current_user.SaveCurrentUserUseCase
 import com.example.restaurantapp.domain.use_cases.signup.SignUpUseCase
+import com.example.restaurantapp.presentation.auth.login.LoginDestination
 import com.example.restaurantapp.presentation.extentions.createMutableSharedFlowAsSingleLiveEvent
 import com.example.restaurantapp.presentation.managers.GlobalNavigatorManager
 import com.example.restaurantapp.presentation.managers.toast.ShowToastUseCase
@@ -42,7 +42,6 @@ class SignUpViewModel @Inject constructor(
             is SignUpEvent.OnPasswordChange -> doPasswordChange(event)
             is SignUpEvent.OnLoginClick -> onLoginClick()
             is SignUpEvent.OnSingUpCLick -> onSingUpCLick()
-            else -> {}
         }
     }
 
@@ -54,24 +53,24 @@ class SignUpViewModel @Inject constructor(
                 email = uiState.value.email,
                 password = uiState.value.password
             )
+
+
             when (result) {
-                is Result.Error -> {
-                    showToastUseCase.showToast(result.message ?: DEFAULT_ERROR_MESSAGE)
-                    Log.e("SocialApp", "Error onSingUpCLick ${result.message ?: ""}")
-                }
+                is Result.Error -> showToastUseCase.showToast(
+                    result.message ?: DEFAULT_ERROR_MESSAGE
+                )
 
                 is Result.Success -> {
                     val user = result.data ?: return@launch
                     saveCurrentUserUseCase(user)
                     navigatorManager.navigateTo(MAIN_NAV_GRAPH_ROUTE, true)
-                    Log.e("SocialApp", "Success onSingUpCLick ${result.data}")
                 }
             }
         }
     }
 
     private fun onLoginClick() {
-        _navControllerFlow.tryEmit(SignUpDestination.route())
+        _navControllerFlow.tryEmit(LoginDestination.route())
     }
 
     private fun doPasswordChange(event: SignUpEvent.OnPasswordChange) {

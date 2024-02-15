@@ -1,7 +1,6 @@
 package com.example.socialapp.data.repositories
 
 import android.content.Context
-import android.util.Log
 import com.example.restaurantapp.domain.models.UserDomain
 import com.example.restaurantapp.domain.repository.CurrentUserRepository
 import com.google.gson.Gson
@@ -11,6 +10,7 @@ import javax.inject.Inject
 private const val IS_ONBOARDING_PASSED = "is_onboarding_passed"
 private const val CURRENT_USER_NAME = "CURRENT_USER_NAME"
 private const val CURRENT_USER_OBJECT_ID = "CURRENT_USER_OBJECT_ID"
+private const val USER_PREF = "USER_PREF"
 
 class CurrentUserRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context
@@ -20,27 +20,27 @@ class CurrentUserRepositoryImpl @Inject constructor(
         context.getSharedPreferences(IS_ONBOARDING_PASSED, Context.MODE_PRIVATE)
     }
 
-    override fun saveCurrentUser(user: UserDomain) {
-        Log.i("AAA", "saveUser = $user")
-        val prefEditor = sharedPreferences.edit()
-        prefEditor.putString(CURRENT_USER_NAME, Gson().toJson(user))
-        prefEditor.apply()
+    private val userSharedPreferencesby by lazy(LazyThreadSafetyMode.NONE) {
+        context.getSharedPreferences(USER_PREF, Context.MODE_PRIVATE)
     }
 
+    override fun saveCurrentUser(user: UserDomain) {
+        userSharedPreferencesby.edit()
+            .putString(CURRENT_USER_NAME, Gson().toJson(user))
+            .apply()
+    }
 
     override fun fetchCurrentUser(): UserDomain {
         return try {
-            val json = sharedPreferences.getString(CURRENT_USER_NAME, String()) ?: String()
-            Gson().fromJson(
-                json, UserDomain::class.java
-            )
+            val json = userSharedPreferencesby.getString(CURRENT_USER_NAME, String()) ?: String()
+            Gson().fromJson(json, UserDomain::class.java)
         } catch (e: Exception) {
             UserDomain.unknown
         }
     }
 
     override fun clearCurrentUser() {
-        sharedPreferences
+        userSharedPreferencesby
             .edit()
             .clear()
             .apply()

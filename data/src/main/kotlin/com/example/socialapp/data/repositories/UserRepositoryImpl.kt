@@ -24,7 +24,7 @@ class UserRepositoryImpl @Inject constructor(
         return try {
             val params = "{\"objectId\":\"$id\"}"
             val response = service.fetchUserById(params)
-            val user = response.body()?.results?.first()?.toDomain() ?: UserDomain.unknown
+            val user = response.body()?.results?.firstOrNull()?.toDomain() ?: UserDomain.unknown
             Result.Success(data = user)
         } catch (e: CancellationException) {
             throw e

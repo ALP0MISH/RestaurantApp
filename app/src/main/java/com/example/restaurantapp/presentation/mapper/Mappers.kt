@@ -45,7 +45,6 @@ fun BasketMenuDomain.toUi(): BasketMenuUi =
         gram = gram,
         price = price,
         description = description,
-        category_id = category_id,
         rating = rating,
     )
 
@@ -55,7 +54,7 @@ fun MenuUi.toMenuUi(): BasketMenuDomain =
         gram = gram,
         price = price,
         description = description,
-        category_id = categoryId,
+        categoryId = categoryId,
         rating = rating,
         imageUrl = imageUrl,
         imageName = imageName,
@@ -68,8 +67,7 @@ fun EditProfileUiState.toUi(): ChangeUserInfoDomain =
         userLastname = lastName,
         email = email,
         password = password,
-        historyId = aboutMe,
-        objectId = objectId
+        aboutMe = aboutMe
     )
 
 fun ChangeUserInfoDomain.toUi(): EditProfileUiState =
@@ -77,7 +75,6 @@ fun ChangeUserInfoDomain.toUi(): EditProfileUiState =
         name = userName,
         lastName = userLastname,
         email = email,
-        aboutMe = historyId ?: "",
         image = "",
         password = password
     )

@@ -2,6 +2,7 @@ package com.example.restaurantapp.presentation.auth.signup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,13 +21,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.example.restaurantapp.R
 import com.example.restaurantapp.presentation.components.LoginTextField
+import com.example.restaurantapp.presentation.components.TabBar
 import com.example.restaurantapp.presentation.components.animations.SpacerHeight
 import com.example.restaurantapp.presentation.components.animations.SpacerWidth
-import com.example.restaurantapp.presentation.components.TabBar
-import com.example.restaurantapp.presentation.theme.Background
+import com.example.restaurantapp.presentation.theme.BackgroundModal
+import com.example.restaurantapp.presentation.theme.DarkPlaceholder
 import com.example.restaurantapp.presentation.theme.ExtraLargeSpacing
 import com.example.restaurantapp.presentation.theme.ExtraMediumSpacing
 import com.example.restaurantapp.presentation.theme.LargeSpacing
+import com.example.restaurantapp.presentation.theme.LightBlue
 import com.example.restaurantapp.presentation.theme.MediumSpacing
 import com.example.restaurantapp.presentation.theme.SmallSpacing
 
@@ -45,7 +48,7 @@ fun SignUpScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Background)
+                .background(if (isSystemInDarkTheme()) DarkPlaceholder else BackgroundModal)
                 .padding(innerPaddings),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -80,7 +83,7 @@ fun SignUpScreen(
                 },
                 modifier = Modifier.fillMaxWidth(0.9f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
+                    containerColor = LightBlue,
                     contentColor = MaterialTheme.colorScheme.onBackground
                 )
             ) {
@@ -97,7 +100,7 @@ fun SignUpScreen(
                 Text(
                     text = stringResource(id = R.string.already_have_an_account),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 SpacerWidth(SmallSpacing)
                 Text(

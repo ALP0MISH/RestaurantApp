@@ -18,7 +18,7 @@ import com.example.restaurantapp.presentation.theme.INTER_FONT
 import kotlinx.coroutines.delay
 
 @Composable
-    fun AnimateTypewriterText(
+fun AnimateTypewriterText(
     modifier: Modifier = Modifier,
     baseText: String,
     highlightText: String,
@@ -51,7 +51,7 @@ import kotlinx.coroutines.delay
     Text(
         text = textToDisplay,
         style = MaterialTheme.typography.h4,
-        color = Color.Black,
+        color = androidx.compose.material3.MaterialTheme.colorScheme.onBackground,
         fontSize = 14.sp,
         fontFamily = INTER_FONT,
         fontWeight = FontWeight.Black,
@@ -100,7 +100,7 @@ fun TextLayoutResult.getBoundingBoxesForRange(
         if (firstLineCharRect == null) {
             firstLineCharRect = rect
         } else if (prevRect != null) {
-            if (prevRect.bottom.toFloat() != rect.bottom || isLastRect) {
+            if (prevRect.bottom != rect.bottom || isLastRect) {
                 boundingBoxes.add(
                     firstLineCharRect.copy(right = prevRect.right)
                 )

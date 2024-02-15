@@ -180,3 +180,107 @@ fun IsVisibleItem(
         )
     }
 }
+
+@Composable
+fun BasketItem(
+    image: String,
+    title: String,
+    rating: String,
+    gram: String,
+    price: String,
+    description: String,
+    objectId: String,
+    navigateToDetailScreen: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Spacer(modifier = Modifier.height(MediumSpacing))
+    Column(modifier = modifier
+        .fillMaxWidth()
+        .height(189.dp)
+        .padding(8.dp)
+        .padding(horizontal = LargeSpacing)
+        .clip(RoundedCornerShape(15.dp))
+        .clickable { navigateToDetailScreen(objectId) }
+        .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundModal)
+    ) {
+        Row(
+            modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AsyncImage(
+                model = image,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .width(106.dp)
+                    .height(96.dp)
+                    .padding(MediumSpacing)
+                    .clip(RoundedCornerShape(LargeSpacing))
+            )
+            Column(
+                modifier = Modifier,
+            ) {
+                Text(
+                    modifier = Modifier.padding(start = SmallSpacing),
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    maxLines = 1
+                )
+                Row(
+                    modifier = Modifier.padding(start = SmallSpacing),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        modifier = Modifier,
+                        text = rating,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    Icon(
+                        modifier = Modifier.size(ExtraMediumSpacing),
+                        imageVector = Icons.Default.Star,
+                        contentDescription = null,
+                        tint = Color.Yellow,
+                    )
+                }
+                Text(
+                    modifier = Modifier.padding(start = SmallSpacing),
+                    text = gram,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        }
+        SpacerHeight(MediumSpacing)
+        Text(
+            modifier = Modifier.padding(start = MediumSpacing),
+            text = description,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        SpacerHeight(ExtraMediumSpacing)
+        Row(
+            modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            Text(
+                modifier = Modifier.padding(start = MediumSpacing),
+                text = stringResource(id = R.string.amount),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Spacer(modifier = Modifier.weight(0.5f))
+            Text(
+                modifier = Modifier.padding(end = MediumSpacing),
+                text = price,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
+    }
+}

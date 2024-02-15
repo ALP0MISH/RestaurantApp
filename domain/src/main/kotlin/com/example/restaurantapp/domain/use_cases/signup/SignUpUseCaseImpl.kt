@@ -9,20 +9,24 @@ class SignUpUseCaseImpl(
     private val repository: LoginRepository,
     private val userRepository: UserRepository
 ) : SignUpUseCase {
+
     override suspend fun invoke(
         email: String,
         lastName: String,
         name: String,
         password: String
     ): Result<UserDomain> {
-        if (email.isEmpty()) {
-            return Result.Error(message = "First fill in email")
-        }
         if (name.isEmpty()) {
             return Result.Error(message = "First fill in name")
         }
         if (lastName.isEmpty()) {
             return Result.Error(message = "First fill in lastName")
+        }
+        if (email.isEmpty()) {
+            return Result.Error(message = "First fill in email")
+        }
+        if (!email.endsWith("@gmail.com")) {
+            return Result.Error(message = "Email must end with @gmail.com")
         }
         if (password.length < 8) {
             return Result.Error(message = "Incorrect fill password")

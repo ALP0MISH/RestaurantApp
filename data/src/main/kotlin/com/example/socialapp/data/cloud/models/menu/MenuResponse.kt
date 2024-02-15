@@ -1,6 +1,7 @@
 package com.example.socialapp.data.cloud.models.menu
 
 
+import com.example.socialapp.data.cloud.models.basket.BasketCloud
 import com.example.socialapp.data.cloud.models.basket.BasketMenu
 import com.google.gson.annotations.SerializedName
 
@@ -18,5 +19,5 @@ data class CategoryResponse(
 
 data class BasketResponse(
     @SerializedName(RESULTS)
-    val results: List<BasketMenu>
+    val results: List<BasketCloud>
 ) : java.io.Serializable

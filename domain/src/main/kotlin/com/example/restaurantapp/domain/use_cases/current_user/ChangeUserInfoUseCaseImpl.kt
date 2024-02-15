@@ -7,6 +7,6 @@ class ChangeUserInfoUseCaseImpl(
     private val repository: UserRepository
 ) : ChangeUserInfoUseCase {
     override suspend fun changeUserInfo(menu: ChangeUserInfoDomain) {
-        return repository.changeUserInfo(menu)
+        repository.changeUserInfo(menu)
     }
 }

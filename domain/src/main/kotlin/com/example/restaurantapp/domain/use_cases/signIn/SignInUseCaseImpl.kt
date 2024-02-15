@@ -15,12 +15,12 @@ class SignInUseCaseImpl(
         if (email.isEmpty()) {
             return Result.Error(message = "First fill in email")
         }
+        if (!email.endsWith("@gmail.com")) {
+            return Result.Error(message = "Email must end with @gmail.com")
+        }
         if (password.isEmpty()) {
             return Result.Error(message = "First fill in password")
         }
-//        if (email.isValidString()) {
-//            return Result.Error(message = "Incorrect fill email")
-//        }
         if (password.length < 6) {
             return Result.Error("Incorrect password")
         }
@@ -29,12 +29,4 @@ class SignInUseCaseImpl(
             password = password
         )
     }
-}
-
-internal fun String.isValidString(): Boolean {
-    val emailPattern = Pattern.compile(
-        "[a-zA-Z0-9\\+\\._\\%\\-\\+]{1,256}\\@[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}(\\.[a" +
-                "-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+"
-    )
-    return emailPattern.matcher(this).matches()
 }

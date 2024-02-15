@@ -6,7 +6,6 @@ import com.example.restaurantapp.domain.models.CreateResponseDomain
 import com.example.restaurantapp.domain.models.UserDomain
 import com.example.restaurantapp.domain.repository.LoginRepository
 import com.example.restaurantapp.domain.use_cases.current_user.SaveCurrentUserObjectId
-import com.example.restaurantapp.domain.use_cases.current_user.SaveCurrentUserUseCase
 import com.example.socialapp.data.cloud.models.user.SignUpParams
 import com.example.socialapp.data.cloud.service.LoginService
 import com.example.socialapp.data.mappers.toDomain
@@ -49,6 +48,7 @@ class LoginRepositoryImpl @Inject constructor(
             password = password
         )
         val response = service.signUp(params)
+
         val result = response.body()
         if (result != null) {
             saveCurrentUserUseCase(result.id)

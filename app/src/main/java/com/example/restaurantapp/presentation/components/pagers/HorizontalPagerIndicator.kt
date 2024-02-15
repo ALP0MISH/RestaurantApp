@@ -40,6 +40,7 @@ fun HorizontalPagerContent(
     scrollState: ScrollState,
     uiState: TakeAwayUiState.Loaded,
     addToBasket: (MenuUi) -> Unit,
+    navigateToBasketScreen: () -> Unit,
     navigateToDetailScreen: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -113,6 +114,7 @@ fun HorizontalPagerContent(
                     menu = menuDomain,
                     navigateToDetailScreen = navigateToDetailScreen,
                     addToBasket = addToBasket,
+                    navigateToBasketScreen = navigateToBasketScreen
                 )
             }
         }

@@ -22,13 +22,17 @@ import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.SnackbarResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowRightAlt
 import androidx.compose.material.icons.filled.Scale
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,6 +47,7 @@ import com.example.restaurantapp.presentation.components.animations.SpacerWidth
 import com.example.restaurantapp.presentation.models.MenuUi
 import com.example.restaurantapp.presentation.theme.BackgroundModal
 import com.example.restaurantapp.presentation.theme.BackgroundModalDar
+import com.example.restaurantapp.presentation.theme.BackgroundSecondary
 import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
 import com.example.restaurantapp.presentation.theme.DarkPlaceholder
 import com.example.restaurantapp.presentation.theme.ExtraLargeSpacing
@@ -53,6 +58,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun BottomLazyColumn(
     menu: List<MenuUi>,
+    addToBasket: (MenuUi) -> Unit,
+    navigateToBasketScreen: () -> Unit,
     navigateToDetailScreen: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -76,14 +83,11 @@ fun BottomLazyColumn(
             key = { list -> list.objectId }
         ) { list ->
             LazyColumnItem(
-                image = list.imageUrl,
-                objectId = list.objectId,
-                title = list.title,
-                gram = list.gram,
-                price = list.price,
+                menu = list,
                 navigateToDetailScreen = navigateToDetailScreen,
-                categoryId = list.categoryId,
                 modifier = Modifier.padding(top = ExtraLargeSpacing),
+                addToBasket = addToBasket,
+                navigateToBasketScreen = navigateToBasketScreen
             )
         }
     }
@@ -91,24 +95,21 @@ fun BottomLazyColumn(
 
 @Composable
 fun LazyColumnItem(
-    objectId: String,
-    categoryId: String,
-    image: String,
-    title: String,
-    gram: String,
-    price: String,
+    menu: MenuUi,
+    navigateToBasketScreen: () -> Unit,
+    addToBasket: (MenuUi) -> Unit,
     navigateToDetailScreen: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
+    var isButtonCounterVisible by remember { mutableStateOf(false) }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
                 navigateToDetailScreen(
-                    objectId,
-                    categoryId,
+                    menu.objectId,
+                    menu.categoryId,
                 )
             }
             .clip(RoundedCornerShape(15.dp))
@@ -117,7 +118,7 @@ fun LazyColumnItem(
             modifier = Modifier
                 .size(115.dp)
                 .background(DarkPlaceholder),
-            model = image, contentDescription = null,
+            model = menu.imageUrl, contentDescription = null,
             contentScale = ContentScale.Crop
         )
         Column(
@@ -132,9 +133,9 @@ fun LazyColumnItem(
             ) {
                 Text(
                     modifier = Modifier.padding(start = 8.dp, top = 8.dp),
-                    text = title,
+                    text = menu.title,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -153,7 +154,7 @@ fun LazyColumnItem(
                 SpacerWidth(2.dp)
                 Text(
                     modifier = Modifier.padding(start = 8.dp),
-                    text = gram,
+                    text = menu.gram,
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray
                 )
@@ -167,9 +168,9 @@ fun LazyColumnItem(
             ) {
                 Text(
                     modifier = Modifier,
-                    text = price,
+                    text = menu.price,
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Box(
@@ -177,35 +178,33 @@ fun LazyColumnItem(
                         .padding(end = 6.dp)
                         .size(32.dp)
                         .clip(CircleShape)
-                        .background(BackgroundModalDar)
+                        .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary)
                         .clickable {
-                            scope.launch {
-                                val result = snackbarHostState
-                                    .showSnackbar(
-                                        message = "Snackbar",
-                                        actionLabel = "Action",
-                                        // Defaults to SnackbarDuration.Short
-                                        duration = SnackbarDuration.Indefinite
-                                    )
-                                when (result) {
-                                    SnackbarResult.ActionPerformed -> {
-                                        /* Handle snackbar action performed */
-                                    }
-
-                                    SnackbarResult.Dismissed -> {
-                                        /* Handle snackbar dismissed */
-                                    }
-                                }
-                            }
+                            isButtonCounterVisible = !isButtonCounterVisible
+                            addToBasket(menu)
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        modifier = Modifier.size(25.dp),
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        tint = Color.White,
-                    )
+                    if (!isButtonCounterVisible) {
+                        Icon(
+                            modifier = Modifier.size(20.dp),
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
+                    if (isButtonCounterVisible) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowRightAlt,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(20.dp)
+                                .clickable {
+                                    navigateToBasketScreen()
+                                },
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
                 }
             }
         }

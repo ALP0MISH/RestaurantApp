@@ -7,7 +7,6 @@ data class BasketMenuUi(
     val gram: String,
     val price: String,
     val title: String,
-    val category_id: String,
     val description: String,
     val rating: String,
 ) : java.io.Serializable {
@@ -17,7 +16,6 @@ data class BasketMenuUi(
             gram = String(),
             price = String(),
             title = String(),
-            category_id = String(),
             description = String(),
             rating = String(),
         )

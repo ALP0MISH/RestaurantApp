@@ -1,5 +1,7 @@
 package com.example.restaurantapp.di
 
+import android.content.Context
+import android.net.ConnectivityManager
 import com.example.socialapp.data.cloud.service.BasketService
 import com.example.socialapp.data.cloud.service.LoginService
 import com.example.socialapp.data.cloud.service.MenuService
@@ -7,6 +9,7 @@ import com.example.socialapp.data.cloud.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -71,4 +74,8 @@ class RetrofitModule {
         retrofit: Retrofit
     ): BasketService = retrofit.create(BasketService::class.java)
 
+    @Provides
+    fun provideConnectivityManager(@ApplicationContext context: Context): ConnectivityManager {
+        return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
 }

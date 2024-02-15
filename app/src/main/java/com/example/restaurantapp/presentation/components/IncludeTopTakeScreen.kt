@@ -1,7 +1,8 @@
 package com.example.restaurantapp.presentation.components
 
-import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,37 +29,43 @@ import com.example.restaurantapp.R
 import com.example.restaurantapp.presentation.components.animations.SpacerHeight
 import com.example.restaurantapp.presentation.components.animations.SpacerWidth
 import com.example.restaurantapp.presentation.models.User
-import com.example.restaurantapp.presentation.theme.DarkPlaceholder
+import com.example.restaurantapp.presentation.theme.BackgroundSecondary
+import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
 
 @Composable
 fun IncludeTopTakeScreen(
     navigateToSearchScreen: () -> Unit,
+    navigateToEditScreen: () -> Unit,
     user: User,
     modifier: Modifier = Modifier
 ) {
-    Log.i("iii", user.userName)
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
     ) {
         Row(
-            modifier = Modifier,
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier, verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
                 modifier = Modifier
                     .size(35.dp)
                     .clip(CircleShape)
-                    .background(DarkPlaceholder),
+                    .background(if (isSystemInDarkTheme()) BackgroundSecondaryDark else BackgroundSecondary)
+                    .clickable { navigateToEditScreen() },
                 model = user.userAvatar,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
             SpacerWidth(12.dp)
-            Column {
+            Column(
+                modifier = Modifier
+                    .clickable {
+                        navigateToEditScreen()
+                    },
+            ) {
                 Text(
-                    text = stringResource(id = R.string.reserve),
+                    text = stringResource(id = R.string.hello),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
@@ -81,7 +88,7 @@ fun IncludeTopTakeScreen(
         SearchTextField(
             value = value,
             onValueChange = onValueChange,
-            navigateToSearchScreen = { navigateToSearchScreen() }
+            navigateToSearchScreen = { navigateToSearchScreen() },
         )
     }
 }

@@ -3,6 +3,7 @@ package com.example.restaurantapp.presentation.auth.login
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,11 +50,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.restaurantapp.R
 import com.example.restaurantapp.presentation.components.animations.LottieWorkingLoadingView
 import com.example.restaurantapp.presentation.theme.Background
+import com.example.restaurantapp.presentation.theme.BackgroundModal
 import com.example.restaurantapp.presentation.theme.BackgroundSecondaryDark
+import com.example.restaurantapp.presentation.theme.DarkPlaceholder
 import com.example.restaurantapp.presentation.theme.ExtraLarge
 import com.example.restaurantapp.presentation.theme.LargeSpacing
 import com.example.restaurantapp.presentation.theme.MediumSpacing
@@ -62,22 +66,19 @@ import com.example.restaurantapp.presentation.theme.MediumSpacing
 fun LoginScreen(
     uiState: LoginUiState,
     onEvent: (LoginEvent) -> Unit,
+) {
 
-    ) {
     Scaffold { paddingValues ->
-        var email by remember { mutableStateOf(TextFieldValue("")) }
-        var password by remember { mutableStateOf(TextFieldValue("")) }
         var hasError by remember { mutableStateOf(false) }
         var passwordVisualTransformation by remember {
             mutableStateOf<VisualTransformation>(PasswordVisualTransformation())
         }
         val passwordInteractionState = remember { MutableInteractionSource() }
-        val emailInteractionState = remember { MutableInteractionSource() }
 
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
-                .background(Background)
+                .background(if (isSystemInDarkTheme()) DarkPlaceholder else BackgroundModal)
                 .fillMaxSize()
                 .padding(horizontal = LargeSpacing)
         ) {
@@ -88,7 +89,7 @@ fun LoginScreen(
                     text = stringResource(id = R.string.welcombeck),
                     style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.ExtraBold),
                     modifier = Modifier.padding(top = MediumSpacing),
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
             item {
@@ -106,21 +107,21 @@ fun LoginScreen(
                         imeAction = ImeAction.Next
                     ),
                     colors = TextFieldDefaults.colors(
-                        disabledIndicatorColor = Color.LightGray,
+                        disabledIndicatorColor = MaterialTheme.colorScheme.onBackground,
                         focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                        unfocusedIndicatorColor = Color.LightGray,
+                        unfocusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
 
                         focusedContainerColor = BackgroundSecondaryDark,
                         disabledContainerColor = MaterialTheme.colorScheme.primary,
                         unfocusedContainerColor = BackgroundSecondaryDark,
 
-                        focusedTextColor = Color.LightGray,
-                        disabledTextColor = Color.LightGray,
-                        unfocusedTextColor = Color.LightGray,
+                        focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                        disabledTextColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
 
-                        focusedPlaceholderColor = Color.LightGray,
-                        disabledLabelColor = Color.LightGray,
-                        unfocusedLabelColor = Color.LightGray,
+                        focusedPlaceholderColor = MaterialTheme.colorScheme.onBackground,
+                        disabledLabelColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedLabelColor = MaterialTheme.colorScheme.onBackground,
 
                         errorContainerColor = Color.Gray,
                         errorCursorColor = Color.Gray,
@@ -129,13 +130,13 @@ fun LoginScreen(
                     label = {
                         Text(
                             text = stringResource(id = R.string.email_addres),
-                            color = Color.White
+                            color = MaterialTheme.colorScheme.onBackground,
                         )
                     },
                     placeholder = {
                         Text(
                             text = stringResource(id = R.string.abcgmailcom),
-                            color = Color.White
+                            color = MaterialTheme.colorScheme.onBackground,
                         )
                     },
                     onValueChange = {
@@ -171,21 +172,21 @@ fun LoginScreen(
                         )
                     },
                     colors = TextFieldDefaults.colors(
-                        disabledIndicatorColor = Color.LightGray,
+                        disabledIndicatorColor = MaterialTheme.colorScheme.onBackground,
                         focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                        unfocusedIndicatorColor = Color.LightGray,
+                        unfocusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
 
                         focusedContainerColor = BackgroundSecondaryDark,
                         disabledContainerColor = BackgroundSecondaryDark,
                         unfocusedContainerColor = BackgroundSecondaryDark,
 
-                        focusedTextColor = Color.White,
-                        disabledTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
+                        focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                        disabledTextColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
 
-                        focusedPlaceholderColor = Color.LightGray,
-                        disabledLabelColor = Color.LightGray,
-                        unfocusedLabelColor = Color.LightGray,
+                        focusedPlaceholderColor = MaterialTheme.colorScheme.onBackground,
+                        disabledLabelColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedLabelColor = MaterialTheme.colorScheme.onBackground,
 
                         errorContainerColor = Color.Gray,
                         errorCursorColor = Color.Gray,
@@ -201,13 +202,13 @@ fun LoginScreen(
                     label = {
                         androidx.compose.material3.Text(
                             text = stringResource(id = R.string.password),
-                            color = Color.White
+                            color = MaterialTheme.colorScheme.onBackground,
                         )
                     },
                     placeholder = {
                         androidx.compose.material3.Text(
                             text = stringResource(id = R.string.numbers),
-                            color = Color.White
+                            color = MaterialTheme.colorScheme.onBackground,
                         )
                     },
                     onValueChange = {
@@ -236,14 +237,13 @@ fun LoginScreen(
                             .align(Alignment.Center)
                             .height(1.dp)
                             .fillMaxWidth()
-                            .background(Color.LightGray)
+                            .background(MaterialTheme.colorScheme.onBackground)
                     )
                     Text(
                         text = stringResource(id = R.string.or_use),
-                        color = Color.LightGray,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .background(Background)
                             .padding(horizontal = 16.dp)
                     )
                 }
@@ -262,6 +262,7 @@ fun LoginScreen(
                         text = stringResource(id = R.string.sign_in_with_facebook),
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -304,7 +305,7 @@ fun LoginScreen(
                         .fillMaxWidth()
                         .padding(vertical = 16.dp)
                         .clickable(onClick = { onEvent(LoginEvent.OnSingUpCLick) }),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Center
                 )
             }
@@ -313,5 +314,14 @@ fun LoginScreen(
     }
 }
 
-fun invalidInput(email: String, password: String) =
-    email.isEmpty() || password.isEmpty()
+
+@Preview
+@Composable
+fun LoginScreenPreview() {
+    MaterialTheme {
+        LoginScreen(
+            onEvent = {},
+            uiState = LoginUiState()
+        )
+    }
+}

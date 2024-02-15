@@ -7,7 +7,8 @@ import com.example.restaurantapp.domain.repository.BasketRepository
 class FetchBasketByIdUseCaseImpl(
     private val repository: BasketRepository
 ) : FetchBasketByIdUseCase {
-    override suspend fun fetchBasketById(objectId: String): Result<MenuDomain> {
+
+    override suspend fun invoke(objectId: String): Result<MenuDomain> {
         return repository.fetchBasketById(objectId)
     }
 }

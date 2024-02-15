@@ -1,9 +1,19 @@
 package com.example.restaurantapp.presentation.screens.edit_profile
 
-import android.graphics.Bitmap
+import androidx.compose.runtime.Immutable
 
+@Immutable
 sealed class EditProfileEvent {
-    data object OnSaveButtonClick : EditProfileEvent()
+
+    @Immutable
+    data class OnSaveButtonClick(
+        val firstName: String,
+        val lastName: String,
+        val email: String,
+        val password: String,
+        val aboutMe: String,
+    ) : EditProfileEvent()
+
     data class OnEmailChange(val value: String) : EditProfileEvent()
     data class OnPasswordChange(val value: String) : EditProfileEvent()
     data class OnAboutChange(val value: String) : EditProfileEvent()
